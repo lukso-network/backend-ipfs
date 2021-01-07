@@ -31,19 +31,15 @@ spec:
               value: "4096"
           ports:
             - name: swarm
-              protocol: TCP
               containerPort: 4001
             - name: swarm-udp
               protocol: UDP
               containerPort: 4002
             - name: api
-              protocol: TCP
               containerPort: 5001
             - name: ws
-              protocol: TCP
               containerPort: 8081
             - name: http
-              protocol: TCP
               containerPort: 8080
           livenessProbe:
             tcpSocket:
@@ -96,13 +92,10 @@ spec:
           ports:
             - name: api-http
               containerPort: 9094
-              protocol: TCP
             - name: proxy-http
               containerPort: 9095
-              protocol: TCP
             - name: cluster-swarm
               containerPort: 9096
-              protocol: TCP
           livenessProbe:
             tcpSocket:
               port: cluster-swarm

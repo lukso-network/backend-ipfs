@@ -2,12 +2,12 @@ apiVersion: v1
 kind: Service
 metadata:
   name: ipfs-cluster
-  annotations:
-      external-dns.alpha.kubernetes.io/hostname: ipfs.lukso.network
   labels:
     app: ipfs-cluster
 spec:
-  type: LoadBalancer
+  type: NodePort
+  selector:
+    app: ipfs-cluster
   ports:
     - name: swarm
       targetPort: swarm
@@ -15,6 +15,9 @@ spec:
     - name: swarm-udp
       targetPort: swarm-udp
       port: 4002
+    - name: api
+      targetPort: api
+      port: 5001
     - name: ws
       targetPort: ws
       port: 8081
@@ -30,5 +33,3 @@ spec:
     - name: cluster-swarm
       targetPort: cluster-swarm
       port: 9096
-  selector:
-    app: ipfs-cluster
