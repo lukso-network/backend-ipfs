@@ -37,6 +37,25 @@ vs
 }
 ```
 
+## Problems with the cluster in general
+As of right now, somehow the cluster can not see any peers:
+```
+❯ kubectl exec --stdin --tty ipfs-cluster-1 -c ipfs-cluster  -- /bin/sh
+/ # ipfs-cluster-ctl id
+12D3KooWJqfyU6rTvamvmPY3ajvurGmS1a9Z1XhsRZVpJeJfb8uS | ipfs-cluster-1 | Sees 0 other peers
+  > Addresses:
+    - /ip4/10.0.1.3/tcp/9096/p2p/12D3KooWJqfyU6rTvamvmPY3ajvurGmS1a9Z1XhsRZVpJeJfb8uS
+    - /ip4/127.0.0.1/tcp/9096/p2p/12D3KooWJqfyU6rTvamvmPY3ajvurGmS1a9Z1XhsRZVpJeJfb8uS
+  > IPFS: 12D3KooWDvwhrSXLTcYui3nU9AjmNZ1P56W47S28YmQHrLiguDCo
+    - /ip4/127.0.0.1/tcp/4001/p2p/12D3KooWDvwhrSXLTcYui3nU9AjmNZ1P56W47S28YmQHrLiguDCo
+    - /ip4/127.0.0.1/udp/4001/quic/p2p/12D3KooWDvwhrSXLTcYui3nU9AjmNZ1P56W47S28YmQHrLiguDCo
+    - /ip4/34.78.218.158/tcp/4001/p2p/12D3KooWDvwhrSXLTcYui3nU9AjmNZ1P56W47S28YmQHrLiguDCo
+    - /ip4/34.78.218.158/udp/4001/quic/p2p/12D3KooWDvwhrSXLTcYui3nU9AjmNZ1P56W47S28YmQHrLiguDCo
+```
+
+## Access via domain
+Access via Domain (ipfs.lukso.network) not yet possible. I tried to achieve this via Ingress, but we hit a wall because the healthchecks are failing and they are not customizable. Ingress expects all the "backends" to have 200 status code on the "/" path. Maybe we need to work around this somehow. For now I removed ingress.
+
 ## Working Endpoints
 ### IPFS
 http://146.148.16.48:8080/ipfs/QmXNoej4PJzZB5bSfRo4AbCXwwpopwSBvHhtbr91Ktdaq5 - pic of reto, sorry
