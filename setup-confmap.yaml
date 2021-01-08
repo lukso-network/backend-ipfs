@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: ipfs-cluster-set-bootstrap-conf
+  name: bootstrap-conf
 data:
   entrypoint.sh: |
     #!/bin/sh
@@ -15,16 +15,17 @@ data:
       ipfs-cluster-service init
     fi
 
-    # Listen on port 9094 (Cluster REST API) on all interfaces
     sed -i -e 's/\/ip4\/127.0.0.1\/tcp\/9094/\/ip4\/0.0.0.0\/tcp\/9094/' /data/ipfs-cluster/service.json
-    
+    sed -i -e 's/\/ip4\/127.0.0.1\/tcp\/9095/\/ip4\/0.0.0.0\/tcp\/9095/' /data/ipfs-cluster/service.json
+    sed -i -e 's/\/ip4\/127.0.0.1\/tcp\/9096/\/ip4\/0.0.0.0\/tcp\/9096/' /data/ipfs-cluster/service.json
+
     PEER_HOSTNAME=`cat /proc/sys/kernel/hostname`
 
     grep -q ".*$SVC_NAME-0.*" /proc/sys/kernel/hostname
     if [ $? -eq 0 ]; then
       CLUSTER_ID=${BOOTSTRAP_PEER_ID} \
       CLUSTER_PRIVATEKEY=${BOOTSTRAP_PEER_PRIV_KEY} \
-      exec ipfs-cluster-service daemon --upgrade
+      exec ipfs-cluster-service --debug daemon --upgrade
     else
       BOOTSTRAP_ADDR=/dns4/${SVC_NAME}-0/tcp/9096/p2p/${BOOTSTRAP_PEER_ID}
 
@@ -32,7 +33,7 @@ data:
         exit 1
       fi
       # Only ipfs user can get here
-      exec ipfs-cluster-service daemon --upgrade --bootstrap $BOOTSTRAP_ADDR --leave
+      exec ipfs-cluster-service --debug daemon --upgrade --bootstrap $BOOTSTRAP_ADDR --leave
     fi
 
   configure-ipfs.sh: |

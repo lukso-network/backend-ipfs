@@ -4,7 +4,7 @@ metadata:
   name: ipfs-cluster
 spec:
   serviceName: ipfs-cluster
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
       app: ipfs-cluster
@@ -83,8 +83,6 @@ spec:
                 secretKeyRef:
                   name: secret-config
                   key: cluster-secret
-            - name: CLUSTER_RESTAPI_HTTPLISTENMULTIADDRESS
-              value: /ip4/0.0.0.0/tcp/9094
             - name: CLUSTER_MONITOR_PING_INTERVAL
               value: "3m"
             - name: SVC_NAME
@@ -120,7 +118,7 @@ spec:
       volumes:
         - name: config-scripts
           configMap:
-            name: ipfs-cluster-set-bootstrap-conf
+            name: bootstrap-conf
 
   volumeClaimTemplates:
     - metadata:

@@ -1,9 +1,40 @@
 # LUKSO IPFS-Cluster on Kubernetes
 
 ## Ports overview
-*   Cluster swarm: `tcp:9096` is used by the Cluster swarm and protected by the _shared secret_.  
-*   HTTP API: `tcp:9094` can be exposed when [enabling SSL and setting up basic authentication](../../../documentation/reference/configuration/#restapi)
-## Kubernetes Commands 
+### IPFS
+4001:TCP  PUBLIC      swarm - needed to connect to the swarm?
+4002:UDP  PUBLIC      swarm - same
+5001:TCP  INTERNAL    IPFS API
+8080:TCP  PUBLIC      used to read via http
+8081:WS   PUBLIC      do we need it?
+
+### IPFS-CLUSTER
+9094:TCP INTERNAL         cluster-rest-api - maybe exposed for just us?
+9095:TCP PUBLIC         ipfs-cluster-proxy - this will be exposed instead of the IPFS:5001
+9096:TCP INTERNAL       cluster-swarm 
+
+## Problems with Proxy-API
+### /api/v0/add
+There is a difference in the response:
 ```
-TBD
+{
+    "Name":"",
+    "Hash":"QmZnrPBqsrNg5iuHuFzhWg9bxwHFAcH3ojWFALyURhTotM",
+    "Size":"435731"
+}
+
+vs
+
+{
+    "Name":"QmNeBhZtFGamp7dXHRh6wsJBPmHBiNwpUD1kqHgmtkYqsL",
+    "Hash":"QmNeBhZtFGamp7dXHRh6wsJBPmHBiNwpUD1kqHgmtkYqsL",
+    "Size":"434675"
+}
 ```
+
+## Working Endpoints
+### IPFS
+http://104.155.62.134:8080/ipfs/QmXNoej4PJzZB5bSfRo4AbCXwwpopwSBvHhtbr91Ktdaq5 - pic of reto, sorry
+
+### CLUSTER IPFS-PROXY
+http://104.155.62.134:9095/api/v0/*
