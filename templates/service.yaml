@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: ipfs-cluster
+  name: ipfs-cluster-service
   labels:
     app: ipfs-cluster
 spec:

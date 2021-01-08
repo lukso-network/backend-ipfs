@@ -1,15 +1,14 @@
 resources:
-  - cluster-service.yaml
-  - cluster-setup-confmap.yaml
-  - cluster-statefulset.yaml
-  - env-configmap.yaml
-  - secret-configmap.yaml
-
+  - templates/service.yaml
+  - templates/statefulset.yaml
+  - config/setup-confmap.yaml
+  - config/env-confmap.yaml
+  - config/secret-confmap.yaml
 vars:
   - name: CLUSTER_SVC_NAME
     objref:
       kind: Service
-      name: ipfs-cluster
+      name: ipfs-cluster-service
       apiVersion: v1
     fieldref:
       fieldpath: metadata.name

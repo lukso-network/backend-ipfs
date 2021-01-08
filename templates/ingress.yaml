@@ -1,0 +1,43 @@
+# apiVersion: extensions/v1beta1
+# kind: Ingress
+# metadata:
+#   name: ipfs-cluster-ingress
+#   labels:
+#     app: ipfs-cluster
+#   annotations:
+#     kubernetes.io/ingress.global-static-ip-name: "ipfs-api-ip"
+# spec:
+#   rules:
+#     - host: ipfs.lukso.network
+#       http:
+#         paths:
+#           - path: /add
+#             backend: &cluster_api_service
+#               serviceName: ipfs-cluster
+#               servicePort: 9094
+#           - path: /id
+#             backend: *cluster_api_service
+#           - path: /version
+#             backend: *cluster_api_service
+#           - path: /pins
+#             backend: *cluster_api_service
+#           - path: /api/v0/id
+#             backend: &open_api_service
+#               serviceName: ipfs-cluster
+#               servicePort: 5001
+#           - path: /api/v0/dns
+#             backend: *open_api_service
+#           - path: /api/v0/get
+#             backend: *open_api_service
+#           - path: /api/v0/add
+#             backend: &api_service
+#               serviceName: ipfs-cluster
+#               servicePort: 9095
+#           - path: /ipfs
+#             backend:
+#               serviceName: ipfs-cluster
+#               servicePort: 8080
+#           # - path: /ipns
+#           #   backend:
+#           #     serviceName: ipfs-cluster
+#           #     servicePort: 8080

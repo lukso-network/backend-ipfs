@@ -34,7 +34,7 @@ vs
 
 ## Working Endpoints
 ### IPFS
-http://104.155.62.134:8080/ipfs/QmXNoej4PJzZB5bSfRo4AbCXwwpopwSBvHhtbr91Ktdaq5 - pic of reto, sorry
+http://146.148.16.48:8080/ipfs/QmXNoej4PJzZB5bSfRo4AbCXwwpopwSBvHhtbr91Ktdaq5 - pic of reto, sorry
 
 ### CLUSTER IPFS-PROXY
-http://104.155.62.134:9095/api/v0/*
+http://146.148.16.48:9095/api/v0/*
