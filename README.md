@@ -2,17 +2,22 @@
 
 ## Ports overview
 ### IPFS
+```
 4001:TCP  PUBLIC      swarm - needed to connect to the swarm?
 4002:UDP  PUBLIC      swarm - same
 5001:TCP  INTERNAL    IPFS API
 8080:TCP  PUBLIC      used to read via http
 8081:WS   PUBLIC      do we need it?
 
+```
 ### IPFS-CLUSTER
+
+```
 9094:TCP INTERNAL         cluster-rest-api - maybe exposed for just us?
 9095:TCP PUBLIC         ipfs-cluster-proxy - this will be exposed instead of the IPFS:5001
 9096:TCP INTERNAL       cluster-swarm 
 
+```
 ## Problems with Proxy-API
 ### /api/v0/add
 There is a difference in the response:
