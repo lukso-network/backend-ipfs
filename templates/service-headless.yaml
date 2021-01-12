@@ -1,19 +1,16 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: ipfs-cluster-nodeport
+  name: ipfs-cluster
   labels:
     app: ipfs-cluster
 spec:
-  type: NodePort
+  clusterIP: None
   selector:
     app: ipfs-cluster
   ports:
     - name: swarm
       port: 4001
-    - name: swarm-udp
-      port: 4002  
-      protocol: UDP
     - name: http
       port: 8080
     - name: api-http

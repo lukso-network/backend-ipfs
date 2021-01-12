@@ -1,14 +1,17 @@
 resources:
-  - templates/service.yaml
-  - templates/statefulset.yaml
+  - config/secret-confmap.yaml
+  - config/certificate-issuer.yaml
   - config/setup-confmap.yaml
   - config/env-confmap.yaml
-  - config/secret-confmap.yaml
+  - templates/service.yaml
+  - templates/service-headless.yaml
+  - templates/statefulset.yaml
+  - templates/ingress.yaml
 vars:
   - name: CLUSTER_SVC_NAME
     objref:
       kind: Service
-      name: ipfs-cluster-service
+      name: ipfs-cluster
       apiVersion: v1
     fieldref:
       fieldpath: metadata.name

@@ -4,7 +4,7 @@ metadata:
   name: ipfs-cluster
 spec:
   serviceName: ipfs-cluster
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
       app: ipfs-cluster
@@ -128,7 +128,7 @@ spec:
         accessModes: ["ReadWriteOnce"]
         resources:
           requests:
-            storage: 5Gi
+            storage: 10Gi
     - metadata:
         name: ipfs-storage
       spec:
@@ -136,4 +136,4 @@ spec:
         accessModes: ["ReadWriteOnce"]
         resources:
           requests:
-            storage: 10Gi
+            storage: 100Gi
