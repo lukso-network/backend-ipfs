@@ -1,0 +1,5 @@
+controller:
+  service:
+    loadBalancerIP: 146.148.16.48
+tcp:
+  5001: "default/ipfs-http-gateway:9095"

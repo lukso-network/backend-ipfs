@@ -8,7 +8,7 @@ metadata:
     kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
     nginx.ingress.kubernetes.io/proxy-body-size: "100m"
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    # nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     nginx.ingress.kubernetes.io/enable-cors: "true"
     nginx.ingress.kubernetes.io/cors-allow-methods: "GET, PUT, POST"
     nginx.ingress.kubernetes.io/cors-allow-origin: "*"
@@ -29,33 +29,11 @@ spec:
     - host: ipfs.lukso.network
       http: &http_rules
         paths:
-          - path: /add
-            backend: &cluster_api_service
-              serviceName: ipfs-cluster-nodeport
-              servicePort: 9094
-          - path: /id
-            backend: *cluster_api_service
-          - path: /version
-            backend: *cluster_api_service
-          - path: /pins
-            backend: *cluster_api_service
-          - path: /api/v0/id
-            backend: &open_api_service
-              serviceName: ipfs-cluster-nodeport
-              servicePort: 5001
-          - path: /api/v0/dns
-            backend: *open_api_service
-          - path: /api/v0/get
-            backend: *open_api_service
-          - path: /api/v0/add
-            backend: &api_service
-              serviceName: ipfs-cluster-nodeport
-              servicePort: 9095
           - path: /ipfs
             backend:
-              serviceName: ipfs-cluster-nodeport
+              serviceName: ipfs-http-gateway
               servicePort: 8080
           - path: /ipns
             backend:
-              serviceName: ipfs-cluster
+              serviceName: ipfs-http-gateway
               servicePort: 8080
