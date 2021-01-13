@@ -15,7 +15,7 @@ spec:
     spec:
       initContainers:
         - name: configure-ipfs
-          image: "ipfs/go-ipfs:latest"
+          image: "ipfs/go-ipfs:v0.7.0"
           command: ["sh", "/config-scripts/configure-ipfs.sh"]
           volumeMounts:
             - name: ipfs-storage
@@ -24,7 +24,7 @@ spec:
               mountPath: /config-scripts
       containers:
         - name: ipfs
-          image: "ipfs/go-ipfs:latest"
+          image: "ipfs/go-ipfs:v0.7.0"
           imagePullPolicy: IfNotPresent
           env:
             - name: IPFS_FD_MAX
@@ -32,9 +32,6 @@ spec:
           ports:
             - name: swarm
               containerPort: 4001
-            - name: swarm-udp
-              protocol: UDP
-              containerPort: 4002
             - name: api
               containerPort: 5001
             - name: ws
@@ -58,15 +55,14 @@ spec:
               mountPath: /data/ipfs
             - name: config-scripts
               mountPath: /config-scripts
-          resources:
-            {}
+          resources: {}
         - name: ipfs-cluster
-          image: "ipfs/ipfs-cluster:latest"
+          image: "ipfs/ipfs-cluster:v0.13.0"
           imagePullPolicy: IfNotPresent
           command: ["sh", "/config-scripts/entrypoint.sh"]
           envFrom:
-          - configMapRef:
-              name: env-config
+            - configMapRef:
+                name: env-config
           env:
             - name: BOOTSTRAP_PEER_ID
               valueFrom:
@@ -112,8 +108,7 @@ spec:
               mountPath: /data/ipfs-cluster
             - name: config-scripts
               mountPath: /config-scripts
-          resources:
-            {}
+          resources: {}
 
       volumes:
         - name: config-scripts
