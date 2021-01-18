@@ -11,40 +11,11 @@ metadata:
   name: {{ $fullName }}-ingress
   labels:
     {{- include "ipfs-cluster.labels" . | nindent 4 }}
-  {{- with .Values.ingress.annotations }}
   annotations:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
-    cert-manager.io/issuer: {{ .Values.certificateIssuer.name }}
-    acme.cert-manager.io/http01-edit-in-place: "true"
-    nginx.ingress.kubernetes.io/proxy-buffering: "on"
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      proxy_cache static-cache;
-      proxy_cache_valid 404 10m;
-      proxy_cache_use_stale error timeout updating http_404 http_500 http_502 http_503 http_504;
-      proxy_cache_bypass $http_x_purge;
-      add_header X-Cache-Status $upstream_cache_status;
+    kubernetes.io/ingress.global-static-ip-name: ipfs-lukso-network
+    networking.gke.io/managed-certificates: ipfs-lukso-network
 spec:
-  {{- if .Values.ingress.tls }}
-  tls:
-    {{- range .Values.ingress.tls }}
-    - hosts:
-        {{- range .hosts }}
-        - {{ . | quote }}
-        {{- end }}
-      secretName: {{ .secretName }}
-    {{- end }}
-  {{- end }}
-  rules:
-    {{- range .Values.ingress.hosts }}
-    - host: {{ .host | quote }}
-      http:
-        paths:
-          {{- range .paths }}
-          - path: {{ .path }}
-            backend:
-              serviceName: {{ $fullName }}-gateway
-              servicePort: {{ .backend.servicePort }}
-          {{- end }}
-    {{- end }}
+  backend:
+    serviceName: lukso-ipfs-cluster-gateway
+    servicePort: 8080
   {{- end }}

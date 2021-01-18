@@ -118,15 +118,15 @@ spec:
         name: cluster-storage
       spec:
         storageClassName: standard
-        accessModes: ["ReadWriteOnce"]
+        accessModes: ["ReadWriteOnce"] # the volume can be mounted as read-write by a single node
         resources:
           requests:
-            storage: 10Gi
+            storage: 50Gi
     - metadata:
         name: ipfs-storage
       spec:
         storageClassName: standard
-        accessModes: ["ReadWriteOnce"]
+        accessModes: ["ReadWriteOnce"] # the volume can be mounted as read-write by a single node
         resources:
           requests:
-            storage: 100Gi
+            storage: 500Gi
