@@ -1,39 +1,21 @@
+{{- if .Values.ingress.enabled -}}
+{{- $fullName := include "ipfs-cluster.fullname" . -}}
+{{- $svcPort := .Values.service.port -}}
+{{- if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion -}}
+apiVersion: networking.k8s.io/v1beta1
+{{- else -}}
 apiVersion: extensions/v1beta1
+{{- end }}
 kind: Ingress
 metadata:
-  name: ipfs-cluster-ingress
+  name: {{ $fullName }}-ingress
   labels:
-    app: ipfs-cluster
+    {{- include "ipfs-cluster.labels" . | nindent 4 }}
   annotations:
-    kubernetes.io/ingress.class: "nginx"
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
-    nginx.ingress.kubernetes.io/proxy-body-size: "100m"
-    # nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-    nginx.ingress.kubernetes.io/enable-cors: "true"
-    nginx.ingress.kubernetes.io/cors-allow-methods: "GET, PUT, POST"
-    nginx.ingress.kubernetes.io/cors-allow-origin: "*"
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "120"
-    nginx.ingress.kubernetes.io/proxy-send-timeout: "120"
-    nginx.ingress.kubernetes.io/proxy-buffering: "on"
-    nginx.ingress.kubernetes.io/proxy-buffers-number: "16"
-    nginx.ingress.kubernetes.io/proxy-buffer-size: "64k"
-    nginx.ingress.kubernetes.io/proxy-request-buffering: "off"
-    cert-manager.io/issuer: "letsencrypt-prod"
-    acme.cert-manager.io/http01-edit-in-place: "true"
+    kubernetes.io/ingress.global-static-ip-name: ipfs-lukso-network
+    networking.gke.io/managed-certificates: ipfs-lukso-network
 spec:
-  tls:
-    - hosts:
-      - ipfs.lukso.network
-      secretName: letsencrypt-prod
-  rules:
-    - host: ipfs.lukso.network
-      http: &http_rules
-        paths:
-          - path: /ipfs
-            backend:
-              serviceName: ipfs-http-gateway
-              servicePort: 8080
-          - path: /ipns
-            backend:
-              serviceName: ipfs-http-gateway
-              servicePort: 8080
+  backend:
+    serviceName: lukso-ipfs-cluster-gateway
+    servicePort: 8080
+  {{- end }}

@@ -1,0 +1,9 @@
+apiVersion: v2
+name: ipfs-cluster
+description: IPFS Cluster provides data orchestration across a swarm of IPFS daemons by allocating, replicating and tracking a global pinset distributed among multiple peers.
+type: application
+version: 0.1.0
+appVersion: 0.1.0
+maintainers:
+  - name: Reto Ryter
+    email: hello@lukso.network

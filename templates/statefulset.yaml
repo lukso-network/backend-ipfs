@@ -1,21 +1,23 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: ipfs-cluster
+  name: {{ include "ipfs-cluster.fullname" . }}
+  labels:
+    {{- include "ipfs-cluster.labels" . | nindent 4 }}
 spec:
-  serviceName: ipfs-cluster
-  replicas: 3
+  replicas: {{ .Values.replicaCount }}
+  serviceName: {{ include "ipfs-cluster.fullname" . }}
   selector:
     matchLabels:
-      app: ipfs-cluster
+        app: {{ include "ipfs-cluster.fullname" . }}
   template:
     metadata:
       labels:
-        app: ipfs-cluster
+        app: {{ include "ipfs-cluster.fullname" . }}
     spec:
       initContainers:
         - name: configure-ipfs
-          image: "ipfs/go-ipfs:v0.7.0"
+          image: {{ .Values.images.ipfs }}
           command: ["sh", "/config-scripts/configure-ipfs.sh"]
           volumeMounts:
             - name: ipfs-storage
@@ -24,7 +26,7 @@ spec:
               mountPath: /config-scripts
       containers:
         - name: ipfs
-          image: "ipfs/go-ipfs:v0.7.0"
+          image: {{ .Values.images.ipfs }}
           imagePullPolicy: IfNotPresent
           env:
             - name: IPFS_FD_MAX
@@ -34,8 +36,6 @@ spec:
               containerPort: 4001
             - name: api
               containerPort: 5001
-            - name: ws
-              containerPort: 8081
             - name: http
               containerPort: 8080
           livenessProbe:
@@ -57,7 +57,7 @@ spec:
               mountPath: /config-scripts
           resources: {}
         - name: ipfs-cluster
-          image: "ipfs/ipfs-cluster:v0.13.0"
+          image: {{ .Values.images.ipfsCluster }}
           imagePullPolicy: IfNotPresent
           command: ["sh", "/config-scripts/entrypoint.sh"]
           envFrom:
@@ -79,10 +79,8 @@ spec:
                 secretKeyRef:
                   name: secret-config
                   key: cluster-secret
-            - name: CLUSTER_MONITOR_PING_INTERVAL
-              value: "3m"
             - name: SVC_NAME
-              value: $(CLUSTER_SVC_NAME)
+              value: {{ include "ipfs-cluster.fullname" . }}
           ports:
             - name: api-http
               containerPort: 9094
@@ -120,15 +118,15 @@ spec:
         name: cluster-storage
       spec:
         storageClassName: standard
-        accessModes: ["ReadWriteOnce"]
+        accessModes: ["ReadWriteOnce"] # the volume can be mounted as read-write by a single node
         resources:
           requests:
-            storage: 10Gi
+            storage: 50Gi
     - metadata:
         name: ipfs-storage
       spec:
         storageClassName: standard
-        accessModes: ["ReadWriteOnce"]
+        accessModes: ["ReadWriteOnce"] # the volume can be mounted as read-write by a single node
         resources:
           requests:
-            storage: 100Gi
+            storage: 500Gi

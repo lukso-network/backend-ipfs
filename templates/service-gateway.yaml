@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "ipfs-cluster.fullname" . }}
+  name: {{ include "ipfs-cluster.fullname" . }}-gateway
   labels:
     {{- include "ipfs-cluster.labels" . | nindent 4 }}
 spec:
-  clusterIP: "None"
-  {{ with .Values.service.ports }}
+  type: {{ .Values.service.type }}
+  {{- with .Values.service.ports }}
   ports:
     {{- toYaml . | nindent 4 }}
   {{- end }}
