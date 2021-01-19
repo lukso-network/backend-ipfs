@@ -19,7 +19,7 @@ On the very first start of the pods they yet crash, simply deleting the crashed 
 TODO: avoid pod crash on initial startup
 ```
 
-## How to update:
+## How to update:
 ```
 helm upgrade -n prod lukso .
 ```
