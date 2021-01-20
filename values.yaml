@@ -10,12 +10,6 @@ podSecurityContext: {}
   # fsGroup: 2000
 
 securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
 
 service:
   type: NodePort
@@ -31,9 +25,6 @@ certificates:
   gateway:
     name: ipfs-lukso-network
     domain: ipfs.lukso.network
-  api:
-    name: api-ipfs-lukso-network
-    domain: api.ipfs.lukso.network
 
 ingress:
   enabled: true
@@ -43,7 +34,7 @@ resources: {}
 autoscaling:
   enabled: false
   minReplicas: 1
-  maxReplicas: 100
+  maxReplicas: 20
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
 
