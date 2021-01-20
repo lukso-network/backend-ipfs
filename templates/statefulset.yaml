@@ -121,7 +121,7 @@ spec:
         accessModes: ["ReadWriteOnce"] # the volume can be mounted as read-write by a single node
         resources:
           requests:
-            storage: 50Gi
+            storage: 10Gi
     - metadata:
         name: ipfs-storage
       spec:
@@ -129,4 +129,4 @@ spec:
         accessModes: ["ReadWriteOnce"] # the volume can be mounted as read-write by a single node
         resources:
           requests:
-            storage: 500Gi
+            storage: 100Gi

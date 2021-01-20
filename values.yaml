@@ -2,7 +2,7 @@ replicaCount: 3
 
 images:
   ipfs: "ipfs/go-ipfs:v0.7.0"
-  ipfsCluster: "ipfs/ipfs-cluster:v0.13.0"
+  ipfsCluster: "ipfs/ipfs-cluster:v0.13.1"
 
 imagePullSecrets: []
 podAnnotations: {}
@@ -10,12 +10,6 @@ podSecurityContext: {}
   # fsGroup: 2000
 
 securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
 
 service:
   type: NodePort
@@ -24,16 +18,23 @@ service:
       port: 4001
     - name: http
       port: 8080
+    - name: http-proxy
+      port: 9095
+
+certificates:
+  gateway:
+    name: ipfs-lukso-network
+    domain: ipfs.lukso.network
 
 ingress:
   enabled: true
-
+  nameOfGlobalIP: ipfs-lukso-network
 resources: {}
 
 autoscaling:
   enabled: false
   minReplicas: 1
-  maxReplicas: 100
+  maxReplicas: 20
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
 

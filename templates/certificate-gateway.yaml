@@ -1,7 +1,7 @@
 apiVersion: networking.gke.io/v1beta2
 kind: ManagedCertificate
 metadata:
-  name: ipfs-lukso-network
+  name: {{ .Values.certificates.gateway.name }}
 spec:
   domains:
-    - ipfs.lukso.network
+    - {{ .Values.certificates.gateway.domain }}

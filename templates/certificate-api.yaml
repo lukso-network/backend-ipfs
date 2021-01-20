@@ -1,7 +1,0 @@
-apiVersion: networking.gke.io/v1beta2
-kind: ManagedCertificate
-metadata:
-  name: api-ipfs-lukso-network
-spec:
-  domains:
-    - api.ipfs.lukso.network
