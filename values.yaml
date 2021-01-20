@@ -2,7 +2,7 @@ replicaCount: 3
 
 images:
   ipfs: "ipfs/go-ipfs:v0.7.0"
-  ipfsCluster: "ipfs/ipfs-cluster:v0.13.0"
+  ipfsCluster: "ipfs/ipfs-cluster:v0.13.1"
 
 imagePullSecrets: []
 podAnnotations: {}
