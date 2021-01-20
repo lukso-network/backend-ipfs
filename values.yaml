@@ -24,10 +24,20 @@ service:
       port: 4001
     - name: http
       port: 8080
+    - name: http-proxy
+      port: 9095
+
+certificates:
+  gateway:
+    name: ipfs-lukso-network
+    domain: ipfs.lukso.network
+  api:
+    name: api-ipfs-lukso-network
+    domain: api.ipfs.lukso.network
 
 ingress:
   enabled: true
-
+  nameOfGlobalIP: ipfs-lukso-network
 resources: {}
 
 autoscaling:

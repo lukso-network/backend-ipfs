@@ -12,10 +12,10 @@ metadata:
   labels:
     {{- include "ipfs-cluster.labels" . | nindent 4 }}
   annotations:
-    kubernetes.io/ingress.global-static-ip-name: ipfs-lukso-network
-    networking.gke.io/managed-certificates: ipfs-lukso-network
+    kubernetes.io/ingress.global-static-ip-name:  {{ .Values.ingress.nameOfGlobalIP }}
+    networking.gke.io/managed-certificates: {{ .Values.certificates.gateway.name }}
 spec:
   backend:
-    serviceName: lukso-ipfs-cluster-gateway
+    serviceName: {{ $fullName }}-gateway
     servicePort: 8080
   {{- end }}

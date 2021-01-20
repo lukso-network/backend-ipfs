@@ -6,9 +6,9 @@ metadata:
     {{- include "ipfs-cluster.labels" . | nindent 4 }}
 spec:
   type: LoadBalancer
-  loadBalancerIP: 35.241.51.34
   ports:
     - name: proxy-http
-      port: 9095
+      port: 5001
+      targetPort: 9095
   selector:
     app: {{ include "ipfs-cluster.fullname" . }}
