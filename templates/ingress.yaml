@@ -18,4 +18,16 @@ spec:
   backend:
     serviceName: {{ $fullName }}-gateway
     servicePort: 8080
+  rules:
+    - host: {{ .Values.certificates.gateway.domain }}
+      http: &http_rules
+        paths:
+          - path: / 
+            backend:
+                serviceName: {{ $fullName }}-gateway
+                servicePort: 8080
+          - path: /api/*
+            backend:
+              serviceName: {{ $fullName }}-gateway
+              servicePort: 9095
   {{- end }}
