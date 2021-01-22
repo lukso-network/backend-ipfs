@@ -1,14 +1,7 @@
 # Setup Instructions for Google Cloud
 
-- Get two named static IP addresses + proper dns records
+- Get a named static IP addresse + proper dns records
     - ipfs.lukso.network (34.102.180.196)
-    - api.ipfs.lukso.network (35.241.51.34)
-
-```
-metadata:
-  annotations:
-    kubernetes.io/ingress.global-static-ip-name: ipfs.lukso.network
-```
 
 ```
 helm install -n prod lukso .
@@ -24,13 +17,41 @@ TODO: avoid pod crash on initial startup
 helm upgrade -n prod lukso .
 ```
 
-# Backup
-
-The tool used to do the backups is `velero`:
-Setup: https://github.com/vmware-tanzu/velero-plugin-for-gcp/tree/main
+# Velero (Backup)
 
 Docs: https://velero.io/docs/v1.5/
 
-A daily backup is configured to take place at 08:00 CET.
+A daily backup is configured to take place at 08:00 CET in the morning.
 
 This is backing up the *whole* cluster.
+
+## Local Installation
+- Install the command line tool: https://velero.io/docs/v1.5/basic-install/
+- Generate a `service-key` to be able to perform actions on behalf of the service account:
+    ```
+    gcloud iam service-accounts keys create credentials-velero \
+        --iam-account velero@lukso-infrastructure.iam.gserviceaccount.com
+    ```
+## Disaster-Recovery:
+1. Update your backup storage location to read-only mode (this prevents backup objects from being created or deleted in the backup storage location during the restore process):
+
+    ```
+    kubectl patch backupstoragelocation <STORAGE LOCATION NAME> \
+        --namespace velero \
+        --type merge \
+        --patch '{"spec":{"accessMode":"ReadOnly"}}'
+    ```
+2. Create a restore with your most recent Velero Backup:
+
+    ```
+    velero restore create --from-backup <SCHEDULE NAME>-<TIMESTAMP>
+    ```
+
+3. When ready, revert your backup storage location to read-write mode:
+
+    ```
+    kubectl patch backupstoragelocation <STORAGE LOCATION NAME> \
+    --namespace velero \
+    --type merge \
+    --patch '{"spec":{"accessMode":"ReadWrite"}}'
+    ```
