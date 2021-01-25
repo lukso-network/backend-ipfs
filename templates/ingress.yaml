@@ -26,8 +26,18 @@ spec:
             backend:
                 serviceName: {{ $fullName }}-gateway
                 servicePort: 8080
-          - path: /api/*
-            backend:
+          - path: /api/v0/add
+            backend: &ipfs_proxy_api
               serviceName: {{ $fullName }}-gateway
               servicePort: 9095
+          - path: /api/v0/block
+            backend: *ipfs_proxy_api
+          - path: /api/v0/get
+            backend: *ipfs_proxy_api
+          - path: /api/v0/dag/put
+            backend: *ipfs_proxy_api
+          - path: /api/v0/object/data
+            backend: *ipfs_proxy_api
+          - path: /api/v0/object/get
+            backend: *ipfs_proxy_api
   {{- end }}
