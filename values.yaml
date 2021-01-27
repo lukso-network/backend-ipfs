@@ -4,6 +4,9 @@ images:
   ipfs: "ipfs/go-ipfs:v0.7.0"
   ipfsCluster: "ipfs/ipfs-cluster:v0.13.1"
 
+bootstrap:
+  id: Qmd7vkP2JFQDJmFm5zENEQGahsCdN8UeNWCxJq8Y3C8Ged
+
 imagePullSecrets: []
 podAnnotations: {}
 podSecurityContext: {}
