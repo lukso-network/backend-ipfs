@@ -4,6 +4,7 @@
 
 - `gcloud container clusters get-credentials ipfs-cluster --zone europe-west1-c --project lukso-infrastructure`
 - `brew install helm`
+- `brew install helmfile`
 - `helm plugin install https://github.com/jkroepke/helm-secret`
 
 > For non `brew` users: https://helm.sh/docs/intro/install/
