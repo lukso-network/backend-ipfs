@@ -7,18 +7,13 @@ images:
 bootstrap:
   id: Qmd7vkP2JFQDJmFm5zENEQGahsCdN8UeNWCxJq8Y3C8Ged
 
-imagePullSecrets: []
-podAnnotations: {}
-podSecurityContext: {}
-  # fsGroup: 2000
-
-securityContext: {}
-
 service:
   type: NodePort
   ports:
     - name: swarm
       port: 4001
+    - name: ipfs-api
+      port: 5001
     - name: http
       port: 8080
     - name: http-proxy
@@ -32,15 +27,3 @@ certificates:
 ingress:
   enabled: true
   nameOfGlobalIP: ipfs-lukso-network
-resources: {}
-
-autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 20
-  targetCPUUtilizationPercentage: 80
-  # targetMemoryUtilizationPercentage: 80
-
-nodeSelector: {}
-tolerations: []
-affinity: {}

@@ -1,0 +1,3 @@
+creation_rules:
+  - path_regex: secrets.yaml
+    gcp_kms: projects/lukso-infrastructure/locations/global/keyRings/sops/cryptoKeys/sops-key

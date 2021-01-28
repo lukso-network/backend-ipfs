@@ -1,0 +1,31 @@
+repositories:
+- name: lukso-helm-charsts
+  url: https://lukso-helm-charts.storage.googleapis.com
+
+environments:
+  # The "default" environment is available and used when `helmfile` is run without `--environment NAME`.
+  staging:
+    values:
+    - environments/staging/values.yaml
+    secrets:
+    - environments/staging/secrets.yaml
+  # Any environment other than `default` is used only when `helmfile` is run with `--environment NAME`.
+  # That is, the "production" env below is used when and only when it is run like `helmfile --environment production sync`.
+  prod:
+    values:
+    - environments/prod/values.yaml
+    secrets:
+    - environments/prod/secrets.yaml
+
+    missingFileHandler: Error
+
+releases:
+  # Published chart example
+  - name: lukso                            # name of this release
+    namespace: "{{ .Environment.Name }}"   # target namespace
+    createNamespace: true
+    chart: charts/ipfs-cluster
+    values:
+    - environments/{{ .Environment.Name }}/values.yaml
+    secrets:
+    - environments/{{ .Environment.Name }}/secrets.yaml

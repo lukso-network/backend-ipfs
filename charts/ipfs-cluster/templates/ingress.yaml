@@ -12,7 +12,7 @@ metadata:
   labels:
     {{- include "ipfs-cluster.labels" . | nindent 4 }}
   annotations:
-    kubernetes.io/ingress.global-static-ip-name:  {{ .Values.ingress.nameOfGlobalIP }}
+    kubernetes.io/ingress.global-static-ip-name: {{ .Values.ingress.nameOfGlobalIP }}
     networking.gke.io/managed-certificates: {{ .Values.certificates.gateway.name }}
 spec:
   backend:
@@ -22,7 +22,7 @@ spec:
     - host: {{ .Values.certificates.gateway.domain }}
       http: &http_rules
         paths:
-          - path: / 
+          - path: /ipfs
             backend:
                 serviceName: {{ $fullName }}-gateway
                 servicePort: 8080

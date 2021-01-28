@@ -1,0 +1,27 @@
+replicaCount: 3
+
+images:
+  ipfs: "ipfs/go-ipfs:v0.7.0"
+  ipfsCluster: "ipfs/ipfs-cluster:v0.13.1"
+
+bootstrap:
+  id: QmRSmNoknWabiozoH7ubszY3rLd3SsoeaBSJqpLuoAwxFq
+
+service:
+  type: NodePort
+  ports:
+    - name: swarm
+      port: 4001
+    - name: http
+      port: 8080
+    - name: http-proxy
+      port: 9095
+
+certificates:
+  gateway:
+    name: staging-ipfs-lukso-network
+    domain: staging.ipfs.lukso.network
+
+ingress:
+  enabled: true
+  nameOfGlobalIP: staging-ipfs-lukso-network

@@ -46,6 +46,14 @@ data:
 
     mkdir -p /data/ipfs && chown -R ipfs /data/ipfs
 
+    if [ `id -u` -eq 0 ]; then
+      echo "Changing user to $user"
+      # ensure folder is writable
+      su-exec "$user" test -w "/data/ipfs" || chown -R -- "$user" "/data/ipfs"
+      # restart script with new privileges
+      exec su-exec "$user" sh "$0" "$@"
+    fi
+
     if [ -f /data/ipfs/config ]; then
       if [ -f /data/ipfs/repo.lock ]; then
         rm /data/ipfs/repo.lock
