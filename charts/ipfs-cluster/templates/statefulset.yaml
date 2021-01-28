@@ -81,6 +81,8 @@ spec:
                   key: cluster-secret
             - name: SVC_NAME
               value: {{ include "ipfs-cluster.fullname" . }}
+            - name: NAMESPACE
+              value: {{ .Values.namespace }}
           ports:
             - name: api-http
               containerPort: 9094

@@ -27,5 +27,7 @@ releases:
     chart: charts/ipfs-cluster
     values:
     - environments/{{ .Environment.Name }}/values.yaml
+     # set a templated value
+    - namespace: "{{ .Environment.Name }}"
     secrets:
     - environments/{{ .Environment.Name }}/secrets.yaml
