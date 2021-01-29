@@ -1,33 +1,30 @@
-:warning: This setup guide is specifically targeting Google Cloud.
+# IPFS-Cluster on GKE (Google Kubernetes Engine)
 
-# What you will get:
+This is a `helm` chart combined with a `helmfile`. When deployed, it will create an `Ingress` named `{{release-name}}-ipfs-cluster-ingress` with the following endpoints publicly available for you:
 
-```
-{{release-name}}-ipfs-cluster              Cluster IP
-{{release-name}}-ipfs-cluster-gateway      Node Port
-                                                :4001 TCP
-                                                :8080 TCP
-                                                :9095 TCP
-{{release-name}}-ipfs-cluster-ingress      Ingress
-                                                {{ domain }}/
-                                                {{ domain }}/api/v0/add
-                                                {{ domain }}/api/v0/block
-                                                {{ domain }}/api/v0/get
-                                                {{ domain }}/api/v0/dag/put
-                                                {{ domain }}/api/v0/object/data
-                                                {{ domain }}/api/v0/object/get
-```
+IPFS:
+
+- /ipfs/{{ hash }} # Google Cloud CDN
+
+IPFS-Cluster:
+
+- /api/v0/add
+- /api/v0/block
+- /api/v0/get
+- /api/v0/dag/put
+- /api/v0/object/data
+- /api/v0/object/get
 
 ## Environments
 
-By default there are two environments available:
+By default, there are two environments available:
 
-- staging
-- prod
+- `staging`
+- `prod`
 
-They both are located on the same cluster, each within their own `namespace` (staging|prod).
+They both are located on the same cluster, each within their own namespace (`staging`|`prod`).
 
-# Pre-Requisites:
+# Prerequisites:
 
 - Enable [application default credentials](https://github.com/mozilla/sops#encrypting-using-gcp-kms)
 - Request permission to `sops-key`
