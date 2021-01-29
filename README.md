@@ -1,64 +1,74 @@
 :warning: This setup guide is specifically targeting Google Cloud.
 
+# What you will get:
+
+```
+{{release-name}}-ipfs-cluster              Cluster IP
+{{release-name}}-ipfs-cluster-gateway      Node Port
+                                                :4001 TCP
+                                                :8080 TCP
+                                                :9095 TCP
+{{release-name}}-ipfs-cluster-ingress      Ingress
+                                                {{ domain }}/
+                                                {{ domain }}/api/v0/add
+                                                {{ domain }}/api/v0/block
+                                                {{ domain }}/api/v0/get
+                                                {{ domain }}/api/v0/dag/put
+                                                {{ domain }}/api/v0/object/data
+                                                {{ domain }}/api/v0/object/get
+```
+
 ## Pre-Requisites:
 
+- Enable [application default credentials](https://github.com/mozilla/sops#encrypting-using-gcp-kms)
+- Request permission to `sops-key`
+  - `projects/lukso-infrastructure/locations/global/keyRings/sops/cryptoKeys/sops-key`
+- Install `helm`, `helmfile` and `helm-secrets`
+
+### Steps
+
+- `gcloud auth application-default login`
 - `gcloud container clusters get-credentials ipfs-cluster --zone europe-west1-c --project lukso-infrastructure`
 - `brew install helm`
 - `brew install helmfile`
 - `helm plugin install https://github.com/jkroepke/helm-secret`
 
-> For non `brew` users: https://helm.sh/docs/intro/install/
+> For non `brew` users: https://helm.sh/docs/intro/install/ \
 
 # Daily Business
 
 ## Deployment
 
-:warning: On the initial deployment one needs to be patient here, it can take up to 20 minutes until the certificates and the ingress are working properly. Also the health-checks need to be fixed immediately after deployment, as explained later on.
-
 - `helmfile --environment staging sync`
 
-This will result in the following objects under "Services and Ingress":
+> If it is your initial deployment, read on carefully
 
-```
-lukso-ipfs-cluster              Cluster IP
-lukso-ipfs-cluster-gateway      Node Port
-                                                :4001 TCP
-                                                :8080 TCP
-                                                :9095 TCP
-lukso-ipfs-cluster-ingress      Ingress
-                                                example.com/
-                                                example.com/api/v0/add
-                                                example.com/api/v0/block
-                                                example.com/api/v0/get
-                                                example.com/api/v0/dag/put
-                                                example.com/api/v0/object/data
-                                                example.com/api/v0/object/get
-```
+# Notes on the Initial Deployment
 
 ## Fix the ingress health-checks:
 
-- Goto `Network Services` - `Load balancing`.
+- Go to `Network Services` - `Load balancing`.
 - You should see something along the lines of this:
 
 ```
-example.com     /*                  k8s-be-31038--2f38519e29c6dda7        # $1
-example.com     /                   k8s-be-31038--2f38519e29c6dda7
-example.com     /api/v0/add         k8s-be-31200--2f38519e29c6dda7        # $2
-example.com     /api/v0/block       k8s-be-31200--2f38519e29c6dda7
+{{ domain }}     /*                  k8s-be-31038--2f38519e29c6dda7        # $1
+{{ domain }}     /                   k8s-be-31038--2f38519e29c6dda7
+{{ domain }}     /api/v0/add         k8s-be-31200--2f38519e29c6dda7        # $2
+{{ domain }}     /api/v0/block       k8s-be-31200--2f38519e29c6dda7
 ```
 
 ### Update the health-checks
 
 Copy the `k8s-be-xxxxx--2f38519e29c6dda7` string and subsitute `$1` respectively `$2` with it.
 
-- `gcloud compute health-checks update http k8s-be-31388--6ed6b4c9461b904b --request-path=/ipfs/QmNtZbtuRGoPP51FsAfixK81y1HVD41ifeqkR5DprCtZZF`
-- `gcloud compute health-checks update http k8s-be-30046--6ed6b4c9461b904b --request-path=/api/v0/pin/ls`
+- `gcloud compute health-checks update http $1 --request-path=/ipfs/QmNtZbtuRGoPP51FsAfixK81y1HVD41ifeqkR5DprCtZZF`
+- `gcloud compute health-checks update http $2 --request-path=/api/v0/pin/ls`
 
 ## Enable CDN:
 
-- `gcloud compute backend-services update k8s-be-31388--6ed6b4c9461b904b --cache-mode=USE_ORIGIN_HEADERS --enable-cdn`
+- `gcloud compute backend-services update $1 --cache-mode=USE_ORIGIN_HEADERS --enable-cdn`
 
-## Secrets
+# Secrets
 
 Secrets are encrypted via `gcloud kms` (https://cloud.google.com/sdk/gcloud/reference/kms)[https://cloud.google.com/sdk/gcloud/reference/kms].
 
