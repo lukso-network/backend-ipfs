@@ -60,22 +60,14 @@ To actually deploy:
 
 # Secrets
 
-Secrets are encrypted via `gcloud kms` (https://cloud.google.com/sdk/gcloud/reference/kms)[https://cloud.google.com/sdk/gcloud/reference/kms].
+Update a secret:
 
-## Update a secret:
+- `helm secrets edit environments/staging/secrets.yaml`
 
-```
-helm secrets edit environments/staging/secrets.yaml
-```
+Encrypt a secret:
 
-GCP KMS uses Application Default Credentials. If you already logged in using
+- Create the file with the desired contents
+- `helm secrets enc {{ path/to/secrets.yaml }}`
 
-```
-$ gcloud auth login
-```
-
-you can enable application default credentials using the sdk:
-
-```
-$ gcloud auth application-default login
-```
+> Any secret value that needs to be encrypted needs to be stored within a file named `secrets.yaml`.\
+> Secrets are encrypted via `gcloud kms` (https://cloud.google.com/sdk/gcloud/reference/kms)[https://cloud.google.com/sdk/gcloud/reference/kms].
