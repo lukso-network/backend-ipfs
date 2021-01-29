@@ -1,11 +1,11 @@
-## Cluster Secret
+# Cluster Secret
 
 To generate the cluster_secret value which is to be stored in `confmap-secret.yaml`, run the following
 
 - `od -vN 32 -An -tx1 /dev/urandom | tr -d ' \n' | base64` (MacOS)
 - `od -vN 32 -An -tx1 /dev/urandom | tr -d ' \n' | base64 -w 0 -` (Linux)
 
-## Bootstrap Peer ID and Private Key
+# Bootstrap Peer ID and Private Key
 
 - `touch values.yaml`
 - Paste the following content into `values.yaml`
@@ -24,11 +24,44 @@ bootstrap:
   - `echo "<INSERT_PRIV_KEY_VALUE_HERE>" | base64` (MacOS)
   - `echo "<INSERT_PRIV_KEY_VALUE_HERE>" | base64 -w 0 -` (Linux)
 
-## Configuration
+# Checks
 
 - Make sure the `certificates.gateway.domain` in `values.yaml` is correct
 - Make sure the global IP address has the correct name
 - Ensure the DNS settings are propagated
+
+# Deployment
+
+Before deploying, always have a look at the generated `yaml` files:
+
+- `helmfile --environment staging template`
+
+To actually deploy:
+
+- `helmfile --environment staging sync`
+
+## Fix the ingress health-checks:
+
+- Go to `Network Services` - `Load balancing`.
+- You should see something along the lines of this:
+
+```
+{{ domain }}     /*                  k8s-be-31038--2f38519e29c6dda7        # $1
+{{ domain }}     /                   k8s-be-31038--2f38519e29c6dda7
+{{ domain }}     /api/v0/add         k8s-be-31200--2f38519e29c6dda7        # $2
+{{ domain }}     /api/v0/block       k8s-be-31200--2f38519e29c6dda7
+```
+
+### Update the health-checks
+
+Copy the `k8s-be-xxxxx--2f38519e29c6dda7` string and subsitute `$1` respectively `$2` with it.
+
+- `gcloud compute health-checks update http $1 --request-path=/ipfs/QmNtZbtuRGoPP51FsAfixK81y1HVD41ifeqkR5DprCtZZF`
+- `gcloud compute health-checks update http $2 --request-path=/api/v0/pin/ls`
+
+## Enable CDN:
+
+- `gcloud compute backend-services update $1 --cache-mode=USE_ORIGIN_HEADERS --enable-cdn`
 
 # Validate Setup
 
