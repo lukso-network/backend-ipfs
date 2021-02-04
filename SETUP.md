@@ -1,5 +1,9 @@
 # Getting Ready
 
+This is a `helm` chart combined with a `helmfile`.
+
+:warning: This guide is only applicable for Google Kubernetes Engine (GKE)
+
 ## Prerequisites
 
 - Enable [application default credentials](https://github.com/mozilla/sops#encrypting-using-gcp-kms)

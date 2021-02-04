@@ -45,3 +45,7 @@ By default, there are two environments available:
   - https://api.ipfs.lukso.network
 
 They both are located on the same cluster, each within their own namespace (`staging`|`prod`).
+
+# Setup
+
+If you would like to setup a cluster from scratch, checkout out the [setup instructins](./SETUP.md).
