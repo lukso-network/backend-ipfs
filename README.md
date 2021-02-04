@@ -1,10 +1,8 @@
 # IPFS-Cluster
 
-This is a `helm` chart combined with a `helmfile`.
+We are running an IPFS-Cluster with the following endpoints publicly available:
 
-When deployed, the following endpoints will be available:
-
-- IPFS via Google Cloud CDN
+- IPFS-Gateway
 
   - ![GET](https://img.shields.io/badge/-GET-blue) https://ipfs.lukso.network/ipfs/QmbK51iHKSDsEHdALnjrQMtb87drBFZFHRbme1fCJsEePg
 
