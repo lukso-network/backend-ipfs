@@ -1,0 +1,36 @@
+{{- $fullName := include "ipfs-cluster.fullname" . -}}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ $fullName }}-ingress-api
+  labels:
+    {{- include "ipfs-cluster.labels" . | nindent 4 }}
+  annotations:
+    acme.cert-manager.io/http01-edit-in-place: "true"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/tls-acme: "true"
+    kubernetes.io/ingress.class: kong
+    konghq.com/plugins: size-limit
+spec:
+  tls:
+  - secretName: {{ .Values.certificates.api.name }}
+    hosts:
+    - {{ .Values.certificates.api.domain }}
+  rules:
+    - host: {{ .Values.certificates.api.domain }}
+      http: &http_rules
+        paths:
+          - path: /api/v0/add
+            backend: &ipfs_proxy_api
+              serviceName: {{ $fullName }}-gateway
+              servicePort: 9095
+          - path: /api/v0/block
+            backend: *ipfs_proxy_api
+          - path: /api/v0/get
+            backend: *ipfs_proxy_api
+          - path: /api/v0/dag/put
+            backend: *ipfs_proxy_api
+          - path: /api/v0/object/data
+            backend: *ipfs_proxy_api
+          - path: /api/v0/object/get
+            backend: *ipfs_proxy_api

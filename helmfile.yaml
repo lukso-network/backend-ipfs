@@ -1,5 +1,5 @@
 repositories:
-- name: lukso-helm-charsts
+- name: lukso-helm-charts
   url: https://lukso-helm-charts.storage.googleapis.com
 
 environments:

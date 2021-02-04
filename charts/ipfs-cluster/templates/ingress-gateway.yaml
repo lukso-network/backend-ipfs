@@ -8,36 +8,19 @@ apiVersion: extensions/v1beta1
 {{- end }}
 kind: Ingress
 metadata:
-  name: {{ $fullName }}-ingress
+  name: {{ $fullName }}-ingress-gateway
   labels:
     {{- include "ipfs-cluster.labels" . | nindent 4 }}
   annotations:
     kubernetes.io/ingress.global-static-ip-name: {{ .Values.ingress.nameOfGlobalIP }}
     networking.gke.io/managed-certificates: {{ .Values.certificates.gateway.name }}
 spec:
-  backend:
-    serviceName: {{ $fullName }}-gateway
-    servicePort: 8080
   rules:
     - host: {{ .Values.certificates.gateway.domain }}
-      http: &http_rules
+      http:
         paths:
           - path: /ipfs
             backend:
                 serviceName: {{ $fullName }}-gateway
                 servicePort: 8080
-          - path: /api/v0/add
-            backend: &ipfs_proxy_api
-              serviceName: {{ $fullName }}-gateway
-              servicePort: 9095
-          - path: /api/v0/block
-            backend: *ipfs_proxy_api
-          - path: /api/v0/get
-            backend: *ipfs_proxy_api
-          - path: /api/v0/dag/put
-            backend: *ipfs_proxy_api
-          - path: /api/v0/object/data
-            backend: *ipfs_proxy_api
-          - path: /api/v0/object/get
-            backend: *ipfs_proxy_api
   {{- end }}

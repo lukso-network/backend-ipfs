@@ -1,3 +1,22 @@
+# Kong
+```
+helm repo add kong https://charts.konghq.com
+helm repo update
+kubectl create namespace kong
+helm install kong kong/kong -n kong --set ingressController.installCRDs=false --set proxy.loadBalancerIP={{ IP }}
+```
+# Cert-Manager:
+```
+helm repo add jetstack https://charts.jetstack.io
+helm repo update
+kubectl create namespace cert-manager
+
+helm install \
+    cert-manager jetstack/cert-manager \
+    --namespace cert-manager \
+    --version v1.1.0 \
+    --set installCRDs=true
+```    
 # Cluster Secret
 
 To generate the cluster_secret value which is to be stored in `confmap-secret.yaml`, run the following

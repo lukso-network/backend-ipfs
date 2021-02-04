@@ -18,6 +18,11 @@ service:
       port: 9095
 
 certificates:
+  issuer:
+    email: hello@lukso.network
+  api:
+    name: stating-api-ipfs-lukso-network
+    domain: staging.api.ipfs.lukso.network
   gateway:
     name: staging-ipfs-lukso-network
     domain: staging.ipfs.lukso.network
