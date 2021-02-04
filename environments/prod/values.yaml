@@ -12,14 +12,17 @@ service:
   ports:
     - name: swarm
       port: 4001
-    - name: ipfs-api
-      port: 5001
     - name: http
       port: 8080
     - name: http-proxy
       port: 9095
 
 certificates:
+  issuer:
+    email: hello@lukso.network
+  api:
+    name: api-ipfs-lukso-network
+    domain: api.ipfs.lukso.network
   gateway:
     name: ipfs-lukso-network
     domain: ipfs.lukso.network

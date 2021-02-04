@@ -1,11 +1,53 @@
-# Kong
+# Getting Ready
+
+## Prerequisites
+
+- Enable [application default credentials](https://github.com/mozilla/sops#encrypting-using-gcp-kms)
+- Request permission to `sops-key`
+  - `projects/lukso-infrastructure/locations/global/keyRings/sops/cryptoKeys/sops-key`
+- Install `helm`, `helmfile` and `helm-secrets`
+
+### Steps
+
+- `gcloud auth application-default login`
+- `gcloud container clusters get-credentials ipfs-cluster --zone europe-west1-c --project lukso-infrastructure`
+- `brew install helm`
+- `brew install helmfile`
+- `helm plugin install https://github.com/jkroepke/helm-secret`
+
+### Instructions for any OS or users without `brew`:
+
+> https://helm.sh/docs/intro/install/
+
+# Deployment
+
+Having setup everything, you are now ready to deplpoy a change to the cluster.
+
+:warning: Before deploying, always have a look at the generated `yaml` files:
+
+- `helmfile --environment staging template`
+
+To actually deploy:
+
+- `helmfile --environment staging sync`
+
+> If it is your initial deployment:
+>
+> - Read on and follow the instructions
+
+# Initial Setup
+
+## Kong
+
 ```
 helm repo add kong https://charts.konghq.com
 helm repo update
 kubectl create namespace kong
 helm install kong kong/kong -n kong --set ingressController.installCRDs=false --set proxy.loadBalancerIP={{ IP }}
 ```
-# Cert-Manager:
+
+## Cert-Manager:
+
 ```
 helm repo add jetstack https://charts.jetstack.io
 helm repo update
@@ -16,7 +58,8 @@ helm install \
     --namespace cert-manager \
     --version v1.1.0 \
     --set installCRDs=true
-```    
+```
+
 # Cluster Secret
 
 To generate the cluster_secret value which is to be stored in `confmap-secret.yaml`, run the following
@@ -91,14 +134,28 @@ HTTP/2 200
 ```
 
 ```
-curl -X POST "https://ipfs.lukso.network/api/v0/add"
+curl -X POST "https://api.ipfs.lukso.network/api/v0/add"
 {"Message":"error reading request: request Content-Type isn't multipart/form-data"}
 ```
 
-It's important that the `ipfs-cluster-ctl id` command returns the correct amount of peers. <br> It should be `# of replicas -1`.
+It's important that the `ipfs-cluster-ctl id` command returns the correct amount of peers. It should be `# of replicas -1`.
 
 ```
 kubectl exec -n prod --stdin --tty lukso-ipfs-cluster-0 -c ipfs-cluster  -- /bin/sh
 / # ipfs-cluster-ctl id
 Qmd7vkP2JFQDJmFm5zENEQGahsCdN8UeNWCxJq8Y3C8Ged | lukso-ipfs-cluster-0 | Sees 2 other peers
 ```
+
+# Secrets
+
+Update a secret:
+
+- `helm secrets edit environments/staging/secrets.yaml`
+
+Encrypt a secret:
+
+- Create the file with the desired contents
+- `helm secrets enc {{ path/to/secrets.yaml }}`
+
+> Any secret value that needs to be encrypted needs to be stored within a file named `secrets.yaml`.
+> Secrets are encrypted via [gcloud kms](https://cloud.google.com/sdk/gcloud/reference/kms).

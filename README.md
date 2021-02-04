@@ -1,70 +1,49 @@
-# IPFS-Cluster on GKE (Google Kubernetes Engine)
+# IPFS-Cluster
 
-This is a `helm` chart combined with a `helmfile`. When deployed, it will create an `Ingress` named `{{release-name}}-ipfs-cluster-ingress` with the following endpoints publicly available for you:
+This is a `helm` chart combined with a `helmfile`.
 
-IPFS:
+When deployed, the following endpoints will be available:
 
-- /ipfs/{{ hash }} # Google Cloud CDN
+- IPFS via Google Cloud CDN
 
-IPFS-Cluster:
+  - ![GET](https://img.shields.io/badge/-GET-blue) https://ipfs.lukso.network/ipfs/QmbK51iHKSDsEHdALnjrQMtb87drBFZFHRbme1fCJsEePg
 
-- /api/v0/add
-- /api/v0/block
-- /api/v0/get
-- /api/v0/dag/put
-- /api/v0/object/data
-- /api/v0/object/get
+- IPFS-Cluster
 
-## Environments
+  - ![POST](https://img.shields.io/badge/-POST-green "POST") [/api/v0/add](https://docs.ipfs.io/reference/http/api/#api-v0-add)
+  - ![POST](https://img.shields.io/badge/-POST-green "POST") [/api/v0/block](https://docs.ipfs.io/reference/http/api/#api-v0-add)
+  - ![POST](https://img.shields.io/badge/-POST-green "POST") [/api/v0/get](https://docs.ipfs.io/reference/http/api/#api-v0-add)
+  - ![POST](https://img.shields.io/badge/-POST-green "POST") [/api/v0/dag/put](https://docs.ipfs.io/reference/http/api/#api-v0-add)
+  - ![POST](https://img.shields.io/badge/-POST-green "POST") [/api/v0/object/data](https://docs.ipfs.io/reference/http/api/#api-v0-add)
+  - ![POST](https://img.shields.io/badge/-POST-green "POST") [/api/v0/object/get](https://docs.ipfs.io/reference/http/api/#api-v0-add)
+
+# Usage
+
+The IPFS API endpoints mentioned above are public and do **not** require an API key.
+
+> Keep in mind the available endpoints are limited to the ones mentioned above. Should you require an additional endpoint, feel free to open an issue here on github, and we can look into it.
+
+```javascript
+import ipfsClient from "ipfs-http-client";
+
+const ipfs = ipfsClient({
+  protocol: "https",
+  host: "api.ipfs.lukso.network",
+  port: 443,
+});
+```
+
+If you require more in-depth examples, head over to the [IPFS docs](https://docs.ipfs.io/reference/).
+
+# Environments
 
 By default, there are two environments available:
 
-- `staging`
-- `prod`
+- Staging aka `staging`
+  - https://staging.ipfs.lukso.network
+  - https://stating.api.ipfs.lukso.network
+- Production aka `prod`
+  - https://ipfs.lukso.network
+  - https://api.ipfs.lukso.network
 
 They both are located on the same cluster, each within their own namespace (`staging`|`prod`).
-
-# Prerequisites:
-
-- Enable [application default credentials](https://github.com/mozilla/sops#encrypting-using-gcp-kms)
-- Request permission to `sops-key`
-  - `projects/lukso-infrastructure/locations/global/keyRings/sops/cryptoKeys/sops-key`
-- Install `helm`, `helmfile` and `helm-secrets`
-
-## Steps
-
-- `gcloud auth application-default login`
-- `gcloud container clusters get-credentials ipfs-cluster --zone europe-west1-c --project lukso-infrastructure`
-- `brew install helm`
-- `brew install helmfile`
-- `helm plugin install https://github.com/jkroepke/helm-secret`
-
-> For non `brew` users: https://helm.sh/docs/intro/install/ \
-
-# Deployment
-
-Before deploying, always have a look at the generated `yaml` files:
-
-- `helmfile --environment staging template`
-
-To actually deploy:
-
-- `helmfile --environment staging sync`
-
-> If it is your initial deployment:
->
-> - Read through [Initial Setup](SETUP.md) and follow the instructions
-
-# Secrets
-
-Update a secret:
-
-- `helm secrets edit environments/staging/secrets.yaml`
-
-Encrypt a secret:
-
-- Create the file with the desired contents
-- `helm secrets enc {{ path/to/secrets.yaml }}`
-
-> Any secret value that needs to be encrypted needs to be stored within a file named `secrets.yaml`.\
-> Secrets are encrypted via `gcloud kms` (https://cloud.google.com/sdk/gcloud/reference/kms)[https://cloud.google.com/sdk/gcloud/reference/kms].
