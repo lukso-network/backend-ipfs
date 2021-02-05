@@ -48,4 +48,4 @@ They both are located on the same cluster, each within their own namespace (`sta
 
 # Setup
 
-If you would like to setup a cluster from scratch, checkout out the [setup instructins](./SETUP.md).
+If you would like to setup a cluster from scratch, checkout out the [setup instructions](./SETUP.md).
