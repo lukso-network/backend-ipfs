@@ -15,12 +15,15 @@ metadata:
     kubernetes.io/ingress.global-static-ip-name: {{ .Values.ingress.nameOfGlobalIP }}
     networking.gke.io/managed-certificates: {{ .Values.certificates.gateway.name }}
 spec:
+  backend:
+    serviceName: {{ $fullName }}-gateway
+    servicePort: 8080
   rules:
     - host: {{ .Values.certificates.gateway.domain }}
       http:
         paths:
           - path: /ipfs
             backend:
-                serviceName: {{ $fullName }}-gateway
-                servicePort: 8080
+              serviceName: {{ $fullName }}-gateway
+              servicePort: 8080
   {{- end }}
