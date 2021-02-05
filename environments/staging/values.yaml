@@ -19,9 +19,10 @@ service:
 
 certificates:
   issuer:
+    name: letsencrypt-staging
     email: hello@lukso.network
   api:
-    name: stating-api-ipfs-lukso-network
+    name: staging-api-ipfs-lukso-network
     domain: staging.api.ipfs.lukso.network
   gateway:
     name: staging-ipfs-lukso-network

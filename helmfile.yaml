@@ -1,7 +1,3 @@
-repositories:
-- name: lukso-helm-charts
-  url: https://lukso-helm-charts.storage.googleapis.com
-
 environments:
   # The "default" environment is available and used when `helmfile` is run without `--environment NAME`.
   staging:

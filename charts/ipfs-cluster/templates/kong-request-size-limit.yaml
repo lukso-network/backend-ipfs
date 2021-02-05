@@ -1,7 +1,7 @@
 apiVersion: configuration.konghq.com/v1
 kind: KongClusterPlugin
 metadata:
-  name: size-limit
+  name: size-limit-{{ .Release.Namespace }}
 config:
   allowed_payload_size: 10
   size_unit: megabytes

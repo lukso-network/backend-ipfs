@@ -1,7 +1,7 @@
 apiVersion: configuration.konghq.com/v1
 kind: KongClusterPlugin
 metadata:
-  name: global-rate-limiting
+  name: global-rate-limiting-{{ .Release.Namespace }}
   annotations:
     kubernetes.io/ingress.class: kong
   labels:

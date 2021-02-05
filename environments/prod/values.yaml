@@ -19,6 +19,7 @@ service:
 
 certificates:
   issuer:
+    name: letsencrypt-prod
     email: hello@lukso.network
   api:
     name: api-ipfs-lukso-network
