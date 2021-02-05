@@ -3,6 +3,6 @@ kind: KongPlugin
 metadata:
   name: size-limit-{{ .Release.Namespace }}
 config:
-  allowed_payload_size: 10
+  allowed_payload_size: 100
   size_unit: megabytes
 plugin: request-size-limiting

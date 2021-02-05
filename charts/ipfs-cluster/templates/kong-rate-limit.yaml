@@ -3,8 +3,8 @@ kind: KongPlugin
 metadata:
   name: rate-limit-{{ .Release.Namespace }}
 config: 
-  minute: 40
-  hour: 200
+  minute: 100
+  hour: 400
   policy: local
   limit_by: ip
 plugin: rate-limiting
