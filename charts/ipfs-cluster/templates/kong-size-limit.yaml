@@ -1,5 +1,5 @@
 apiVersion: configuration.konghq.com/v1
-kind: KongClusterPlugin
+kind: KongPlugin
 metadata:
   name: size-limit-{{ .Release.Namespace }}
 config:

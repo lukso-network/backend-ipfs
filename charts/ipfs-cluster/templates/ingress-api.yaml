@@ -7,10 +7,10 @@ metadata:
     {{- include "ipfs-cluster.labels" . | nindent 4 }}
   annotations:
     acme.cert-manager.io/http01-edit-in-place: "true"
-    cert-manager.io/cluster-issuer: letsencrypt-prod
+    cert-manager.io/cluster-issuer: letsencrypt-{{ .Release.Namespace }}
     kubernetes.io/tls-acme: "true"
     kubernetes.io/ingress.class: kong
-    konghq.com/plugins: size-limit
+    konghq.com/plugins: size-limit-{{ .Release.Namespace }}, rate-limit-{{ .Release.Namespace }}
 spec:
   tls:
   - secretName: {{ .Values.certificates.api.name }}

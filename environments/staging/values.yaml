@@ -19,7 +19,6 @@ service:
 
 certificates:
   issuer:
-    name: letsencrypt-staging
     email: hello@lukso.network
   api:
     name: staging-api-ipfs-lukso-network
