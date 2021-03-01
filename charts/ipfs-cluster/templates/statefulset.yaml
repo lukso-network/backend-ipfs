@@ -55,7 +55,13 @@ spec:
               mountPath: /data/ipfs
             - name: config-scripts
               mountPath: /config-scripts
-          resources: {}
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "200m"
+            limits:
+              memory: "1024Mi"
+              cpu: "300m"
         - name: ipfs-cluster
           image: {{ .Values.images.ipfsCluster }}
           imagePullPolicy: IfNotPresent
@@ -108,8 +114,13 @@ spec:
               mountPath: /data/ipfs-cluster
             - name: config-scripts
               mountPath: /config-scripts
-          resources: {}
-
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "200m"
+            limits:
+              memory: "1024Mi"
+              cpu: "300m"
       volumes:
         - name: config-scripts
           configMap:
