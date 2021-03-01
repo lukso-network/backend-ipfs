@@ -1,7 +1,7 @@
 replicaCount: 3
 
 images:
-  ipfs: "ipfs/go-ipfs:v0.7.0"
+  ipfs: "ipfs/go-ipfs:v0.8.0"
   ipfsCluster: "ipfs/ipfs-cluster:v0.13.1"
 
 bootstrap:
