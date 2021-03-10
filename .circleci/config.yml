@@ -1,0 +1,39 @@
+jobs:
+  deploy-to-staging:
+    executor: gcp-gke/default
+    parameters:
+      cluster-name:
+        description: "Cluster name"
+        type: string
+    steps:
+      - checkout
+      - gcp-gke/install
+      - gcp-gke/update-kubeconfig-with-credentials:
+          cluster: ipfs-cluster
+          perform-login: true
+      - helm/install-helm-client:
+          version: v3.2.4
+      - run:
+          name: Install helm-helmfile
+          command: |
+              wget https://github.com/roboll/helmfile/releases/download/v0.138.7/helmfile_linux_amd64
+              mv helmfile_linux_amd64 helmfile
+              chmod +x helmfile
+              sudo wget https://github.com/mozilla/sops/releases/download/v3.6.1/sops-v3.6.1.linux -O /usr/local/bin/sops
+              sudo chmod +x /usr/local/bin/sops
+              SKIP_SOPS_INSTALL=true helm plugin install https://github.com/jkroepke/helm-secrets --debug
+              export GOOGLE_APPLICATION_CREDENTIALS="/home/circleci/gcloud-service-key.json"
+              ./helmfile --environment staging sync
+version: 2.1
+orbs:
+  helm: circleci/helm@1.2.0
+  gcp-gke: circleci/gcp-gke@1.2.0
+# Orchestrate or schedule a set of jobs
+workflows:
+  # Name the workflow "welcome"
+  deployment:
+    # Run the welcome/run job in its own container
+    jobs:
+      - deploy-to-staging:
+          cluster-name: twy-staging
+
