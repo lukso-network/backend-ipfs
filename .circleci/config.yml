@@ -28,12 +28,9 @@ version: 2.1
 orbs:
   helm: circleci/helm@1.2.0
   gcp-gke: circleci/gcp-gke@1.2.0
-# Orchestrate or schedule a set of jobs
 workflows:
-  # Name the workflow "welcome"
   deployment:
-    # Run the welcome/run job in its own container
     jobs:
       - deploy-to-staging:
-          cluster-name: twy-staging
+          cluster-name: ipfs-cluster
 
