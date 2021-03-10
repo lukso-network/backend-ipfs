@@ -39,7 +39,7 @@ By default, there are two environments available:
 
 - Staging aka `staging`
   - https://staging.ipfs.lukso.network
-  - https://stating.api.ipfs.lukso.network
+  - https://staging.api.ipfs.lukso.network
 - Production aka `prod`
   - https://ipfs.lukso.network
   - https://api.ipfs.lukso.network

@@ -1,0 +1,16 @@
+{
+  "scripts": {
+    "test": "jest",
+    "test:prod": "jest tests/prod.spec.js",
+    "test:staging": "jest tests/staging.spec.js"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "ipfs-http-client": "^49.0.4"
+  },
+  "devDependencies": {
+    "@babel/plugin-transform-runtime": "^7.13.10",
+    "@babel/preset-env": "^7.13.10",
+    "jest": "^26.6.3"
+  }
+}
