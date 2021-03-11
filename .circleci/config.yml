@@ -52,13 +52,13 @@ workflows:
           filters: &filters-staging
             branches:
               only: main
-            tags:
-              ignore: /.*/
       - test:
           requires:
             - staging-deployment
           filters:
             <<: *filters-staging
+  deployment-production:
+    jobs:
       - deploy:
           name: prod-deployment
           cluster-name: ipfs-cluster
