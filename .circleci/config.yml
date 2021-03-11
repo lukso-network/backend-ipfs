@@ -57,6 +57,8 @@ workflows:
           filters: &filters-staging
             branches:
               only: main
+            tags:
+              ignore: /.*/
       - test:
           requires:
             - staging-deployment
