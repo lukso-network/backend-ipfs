@@ -1,6 +1,8 @@
 {
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "test:prod": "jest tests/prod.spec.js",
+    "test:staging": "jest tests/staging.spec.js"
   },
   "dependencies": {
     "axios": "^0.21.1",
