@@ -70,11 +70,12 @@ workflows:
           name: prod-deployment
           cluster-name: ipfs-cluster
           environment: prod
+          type: approval
           filters: &filters-production
             branches:
-              ignore: /.*/
+              only: main
             tags:
-              only: /^production.*/
+              ignore: /.*/
       - test:
           requires:
             - prod-deployment
