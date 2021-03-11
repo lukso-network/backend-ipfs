@@ -32,6 +32,11 @@ jobs:
             ./helmfile --environment <<parameters.environment>> apply
   test:
     executor: node/default
+    parameters:
+      environment:
+        default: "staging"
+        description: Environment to test on
+        type: string
     steps:
       - checkout
       - node/install-packages
