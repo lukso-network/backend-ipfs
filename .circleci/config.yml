@@ -11,6 +11,7 @@ jobs:
         type: string
     steps:
       - checkout
+      - add_ssh_keys
       - gcp-gke/install
       - gcp-gke/update-kubeconfig-with-credentials:
           cluster: <<parameters.cluster-name>>
