@@ -26,8 +26,9 @@ jobs:
             sudo wget https://github.com/mozilla/sops/releases/download/v3.6.1/sops-v3.6.1.linux -O /usr/local/bin/sops
             sudo chmod +x /usr/local/bin/sops
             SKIP_SOPS_INSTALL=true helm plugin install https://github.com/jkroepke/helm-secrets --debug
+            sudo helm plugin install https://github.com/databus23/helm-diff
             export GOOGLE_APPLICATION_CREDENTIALS="/home/circleci/gcloud-service-key.json"
-            ./helmfile --environment <<parameters.environment>> sync
+            ./helmfile --environment <<parameters.environment>> apply
   test:
     executor: node/default
     steps:
