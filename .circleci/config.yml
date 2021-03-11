@@ -1,5 +1,5 @@
 jobs:
-  deploy-to-staging:
+  deploy:
     executor: gcp-gke/default
     parameters:
       cluster-name:
