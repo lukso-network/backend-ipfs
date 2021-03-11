@@ -5,11 +5,15 @@ jobs:
       cluster-name:
         description: "Cluster name"
         type: string
+      environment:
+        default: "staging"
+        description: Environment to deploy to
+        type: string
     steps:
       - checkout
       - gcp-gke/install
       - gcp-gke/update-kubeconfig-with-credentials:
-          cluster: ipfs-cluster
+          cluster: <<parameters.cluster-name>>
           perform-login: true
       - helm/install-helm-client:
           version: v3.2.4
@@ -23,7 +27,7 @@ jobs:
               sudo chmod +x /usr/local/bin/sops
               SKIP_SOPS_INSTALL=true helm plugin install https://github.com/jkroepke/helm-secrets --debug
               export GOOGLE_APPLICATION_CREDENTIALS="/home/circleci/gcloud-service-key.json"
-              ./helmfile --environment staging sync
+              ./helmfile --environment <<parameters.environment>> sync
 version: 2.1
 orbs:
   helm: circleci/helm@1.2.0
@@ -31,6 +35,7 @@ orbs:
 workflows:
   deployment:
     jobs:
-      - deploy-to-staging:
+      - deploy:
           cluster-name: ipfs-cluster
+          environment: staging
 
