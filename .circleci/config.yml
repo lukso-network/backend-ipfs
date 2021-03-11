@@ -46,12 +46,14 @@ workflows:
   deployment-staging:
     jobs:
       - deploy:
+          name: staging-deployment
           cluster-name: ipfs-cluster
           environment: staging
       - test:
           requires:
-            - deploy
+            - staging-deployment
       - deploy:
+          name: prod-deployment
           cluster-name: ipfs-cluster
           environment: prod
           requires:
