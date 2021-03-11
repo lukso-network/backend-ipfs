@@ -51,3 +51,13 @@ workflows:
       - test:
           requires:
             - deploy
+      - deploy:
+          cluster-name: ipfs-cluster
+          environment: prod
+          requires:
+            - test
+          filters:
+            tags:
+              only: /^prod.*/
+            branches:
+              only: /main/
