@@ -41,9 +41,11 @@ orbs:
   gcp-gke: circleci/gcp-gke@1.2.0
   node: circleci/node@4.2.0
 workflows:
-  deployment:
+  deployment-staging:
     jobs:
       - deploy:
           cluster-name: ipfs-cluster
           environment: staging
-      - test
+      - test:
+          requires:
+            - deploy
