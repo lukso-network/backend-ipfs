@@ -67,6 +67,6 @@ workflows:
             - test
           filters: &filters-production
             branches:
-              ignore: /.*/
+              only: main
             tags:
               only: /^production.*/
