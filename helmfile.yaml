@@ -3,8 +3,6 @@ environments:
   staging:
     values:
     - environments/staging/values.yaml
-    secrets:
-    - environments/staging/secrets.yaml
   # Any environment other than `default` is used only when `helmfile` is run with `--environment NAME`.
   # That is, the "production" env below is used when and only when it is run like `helmfile --environment production sync`.
   prod:
@@ -25,5 +23,3 @@ releases:
     - environments/{{ .Environment.Name }}/values.yaml
      # set a templated value
     - namespace: "{{ .Environment.Name }}"
-    secrets:
-    - environments/{{ .Environment.Name }}/secrets.yaml
