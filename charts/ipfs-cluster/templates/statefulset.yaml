@@ -57,18 +57,15 @@ spec:
               mountPath: /config-scripts
           resources:
             requests:
-              memory: "256Mi"
-              cpu: "200m"
+              memory: "128Mi"
+              cpu: "100m"
             limits:
-              memory: "1024Mi"
-              cpu: "300m"
+              memory: "256Mi"
+              cpu: "150m"
         - name: ipfs-cluster
           image: {{ .Values.images.ipfsCluster }}
           imagePullPolicy: IfNotPresent
           command: ["sh", "/config-scripts/entrypoint.sh"]
-          envFrom:
-            - configMapRef:
-                name: env-config
           env:
             - name: BOOTSTRAP_PEER_ID
               valueFrom:
@@ -116,11 +113,11 @@ spec:
               mountPath: /config-scripts
           resources:
             requests:
-              memory: "256Mi"
-              cpu: "200m"
+              memory: "128Mi"
+              cpu: "100m"
             limits:
-              memory: "1024Mi"
-              cpu: "300m"
+              memory: "256Mi"
+              cpu: "150m"
       volumes:
         - name: config-scripts
           configMap:
