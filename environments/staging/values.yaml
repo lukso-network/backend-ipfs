@@ -30,4 +30,4 @@ certificates:
 
 ingress:
   enabled: true
-  nameOfGlobalIP: staging-ipfs-lukso-network
+  nameOfGlobalIP: global-staging-ipfs-lukso-network
