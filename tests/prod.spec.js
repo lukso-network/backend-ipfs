@@ -9,7 +9,7 @@ const ipfs = ipfsClient({
   port: 443,
 });
 
-describe("Staging", () => {
+describe("Prod", () => {
   it("should upload the file", async () => {
     const file = fs.readFileSync("tests/image.jpg");
     const uploadedFile = await ipfs.add({ path: "test-image", content: file });
