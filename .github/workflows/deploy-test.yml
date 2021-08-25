@@ -48,4 +48,5 @@ jobs:
 
       - name: Test
         run: |
+          npm ci
           npm run test ${{ env.ENVIRONMENT }}
