@@ -2,7 +2,7 @@ name: deploy-test
 
 on:
   push:
-    branches: [ main, github-actions-setup ]
+    branches: [ main ]
 
 env:
   REPO_NAME: ${{ github.event.repository.name }}
