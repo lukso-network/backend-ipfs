@@ -10,6 +10,23 @@ const ipfs = ipfsClient({
 });
 
 describe("Staging", () => {
+  beforeAll(async () => {
+    let responseFromCluster = false;
+
+    while (!responseFromCluster) {
+      try {
+        const res = await axios.post(
+          "https://staging.api.ipfs.lukso.network/api/v0/block/get", {}
+        );
+      } catch (error) {
+        if (error.response.data === 'argument "key" is required\n') {
+          responseFromCluster = true;
+        }
+      }
+      await new Promise((r) => setTimeout(r, 5000));
+    }
+  });
+
   it("should upload the file", async () => {
     const file = fs.readFileSync("tests/image.jpg");
     const uploadedFile = await ipfs.add({ path: "test-image", content: file });
