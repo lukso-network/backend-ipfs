@@ -15,6 +15,17 @@ We are running an IPFS-Cluster with the following endpoints publicly available:
   - ![POST](https://img.shields.io/badge/-POST-green "POST") `https://api.ipfs.lukso.network`[/api/v0/object/data](https://docs.ipfs.io/reference/http/api/#api-v0-add)
   - ![POST](https://img.shields.io/badge/-POST-green "POST") `https://api.ipfs.lukso.network`[/api/v0/object/get](https://docs.ipfs.io/reference/http/api/#api-v0-add)
 
+## Upload manually to LUKSO IPFS
+
+You can use the website bellow to manually upload files to LUKSO IPFS:
+
+- <https://anarkrypto.github.io/upload-files-to-ipfs-from-browser-panel/public/>
+- Node address: `api.ipfs.lukso.network`
+- API Port: `443`
+- Gateway Port: `443`
+
+Then click on "Node online" to connect to the node
+
 # Usage
 
 The IPFS API endpoints mentioned above are public and do **not** require an API key.
