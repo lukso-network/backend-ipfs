@@ -1,12 +1,11 @@
 replicaCount: 3
 
 images:
-  ipfs: "ipfs/go-ipfs:v0.9.0"
-  ipfsCluster: "ipfs/ipfs-cluster:v0.14.1"
+  ipfs: "ipfs/go-ipfs:v0.12.2"
+  ipfsCluster: "ipfs/ipfs-cluster:v1.0.0"
 
 bootstrap:
   id: Qmd28KWdCmZUy4q26rLJ2d6jCW9FtcwtT6hRPxWHX8SHXt
-
 
 service:
   type: NodePort
