@@ -25,7 +25,7 @@ This is a `helm` chart combined with a `helmfile`.
 
 # Deployment
 
-Having setup everything, you are now ready to deplpoy a change to the cluster.
+Having setup everything, you are now ready to deploy a change to the cluster.
 
 :warning: Before deploying, always have a look at the generated `yaml` files:
 
@@ -145,9 +145,8 @@ curl -X POST "https://api.ipfs.lukso.network/api/v0/add"
 It's important that the `ipfs-cluster-ctl id` command returns the correct amount of peers. It should be `# of replicas -1`.
 
 ```
-kubectl exec -n prod --stdin --tty lukso-ipfs-cluster-0 -c ipfs-cluster  -- /bin/sh
-/ # ipfs-cluster-ctl id
-Qmd7vkP2JFQDJmFm5zENEQGahsCdN8UeNWCxJq8Y3C8Ged | lukso-ipfs-cluster-0 | Sees 2 other peers
+$ kubectl exec -n staging --stdin --tty lukso-ipfs-cluster-0 -c ipfs-cluster  -- ipfs-cluster-ctl id
+> Qmd7vkP2JFQDJmFm5zENEQGahsCdN8UeNWCxJq8Y3C8Ged | lukso-ipfs-cluster-0 | Sees 2 other peers
 ```
 
 # Secrets
