@@ -17,6 +17,7 @@ This is a `helm` chart combined with a `helmfile`.
 - `gcloud container clusters get-credentials ipfs-cluster --zone europe-west1-c --project lukso-infrastructure`
 - `brew install helm`
 - `brew install helmfile`
+- `helm plugin install https://github.com/databus23/helm-diff`
 - `helm plugin install https://github.com/jkroepke/helm-secret`
 
 ### Instructions for any OS or users without `brew`:
