@@ -1,49 +1,49 @@
-name: deploy-test
+# name: deploy-test
 
-on:
-  push:
-    branches: [ main ]
+# on:
+#   push:
+#     branches: [ main ]
 
-env:
-  REPO_NAME: ${{ github.event.repository.name }}
-  GCR_PROJECT: lukso-infrastructure
-  ENVIRONMENT: staging
-  GKE_CLUSTER: ipfs-cluster
-  GKE_ZONE: europe-west1-c
-  SA_KEY: ${{ secrets.SA_IPFS_CLUSTER_DEPLOYMENT }}
+# env:
+#   REPO_NAME: ${{ github.event.repository.name }}
+#   GCR_PROJECT: lukso-infrastructure
+#   ENVIRONMENT: staging
+#   GKE_CLUSTER: ipfs-cluster
+#   GKE_ZONE: europe-west1-c
+#   SA_KEY: ${{ secrets.SA_IPFS_CLUSTER_DEPLOYMENT }}
 
-jobs:
-  lint-test-build:
-    name: Deploy and Test
-    runs-on: ubuntu-latest
+# jobs:
+#   lint-test-build:
+#     name: Deploy and Test
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v2
 
-      - uses: google-github-actions/setup-gcloud@94337306dda8180d967a56932ceb4ddcf01edae7
-        with:
-          service_account_key: ${{ env.SA_KEY }}
-          project_id: ${{ env.GCR_PROJECT }}
+#       - uses: google-github-actions/setup-gcloud@94337306dda8180d967a56932ceb4ddcf01edae7
+#         with:
+#           service_account_key: ${{ env.SA_KEY }}
+#           project_id: ${{ env.GCR_PROJECT }}
 
-      - run: |-
-          gcloud --quiet auth configure-docker
+#       - run: |-
+#           gcloud --quiet auth configure-docker
 
-      - uses: google-github-actions/get-gke-credentials@fb08709ba27618c31c09e014e1d8364b02e5042e
-        with:
-          cluster_name: ${{ env.GKE_CLUSTER }}
-          location: ${{ env.GKE_ZONE }}
-          credentials: ${{ env.SA_KEY }}
+#       - uses: google-github-actions/get-gke-credentials@fb08709ba27618c31c09e014e1d8364b02e5042e
+#         with:
+#           cluster_name: ${{ env.GKE_CLUSTER }}
+#           location: ${{ env.GKE_ZONE }}
+#           credentials: ${{ env.SA_KEY }}
 
-      - name: Install helm-helmfile
-        run: |
-          wget https://github.com/roboll/helmfile/releases/download/v0.138.7/helmfile_linux_amd64
-          mv helmfile_linux_amd64 helmfile
-          chmod +x helmfile
-          helm plugin install https://github.com/databus23/helm-diff
-          ./helmfile --environment ${{ env.ENVIRONMENT }} sync
+#       - name: Install helm-helmfile
+#         run: |
+#           wget https://github.com/roboll/helmfile/releases/download/v0.138.7/helmfile_linux_amd64
+#           mv helmfile_linux_amd64 helmfile
+#           chmod +x helmfile
+#           helm plugin install https://github.com/databus23/helm-diff
+#           ./helmfile --environment ${{ env.ENVIRONMENT }} sync
 
-      - name: Test
-        run: |
-          npm ci
-          npm run test ${{ env.ENVIRONMENT }}
+#       - name: Test
+#         run: |
+#           npm ci
+#           npm run test ${{ env.ENVIRONMENT }}
