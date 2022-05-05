@@ -9,7 +9,7 @@ This is a `helm` chart combined with a `helmfile`.
 - Enable [application default credentials](https://github.com/mozilla/sops#encrypting-using-gcp-kms)
 - Request permission to `sops-key`
   - `projects/lukso-infrastructure/locations/global/keyRings/sops/cryptoKeys/sops-key`
-- Install `helm`, `helmfile` and `helm-secrets`
+- Install `helm`, `helmfile` and `helm-diff`
 
 ### Steps
 
@@ -18,7 +18,6 @@ This is a `helm` chart combined with a `helmfile`.
 - `brew install helm`
 - `brew install helmfile`
 - `helm plugin install https://github.com/databus23/helm-diff`
-- `helm plugin install https://github.com/jkroepke/helm-secret`
 
 ### Instructions for any OS or users without `brew`:
 
@@ -152,14 +151,4 @@ $ kubectl exec -n staging --stdin --tty lukso-ipfs-cluster-0 -c ipfs-cluster  --
 
 # Secrets
 
-Update a secret:
-
-- `helm secrets edit environments/staging/secrets.yaml`
-
-Encrypt a secret:
-
-- Create the file with the desired contents
-- `helm secrets enc {{ path/to/secrets.yaml }}`
-
-> Any secret value that needs to be encrypted needs to be stored within a file named `secrets.yaml`.
-> Secrets are encrypted via [gcloud kms](https://cloud.google.com/sdk/gcloud/reference/kms).
+This repo was previously using `helm-secret` and then attempted to use SealedSecret. However, the SealedSecrets were only generated for the staging env and never deployed to the prod env. To fix memory issues quick, the SeadledSecret yaml file has been commented and the related secrets were injected as environements variables in the stateful set. The commit version does not contain these values of course. The values are stored in the DevOps top secret shared folder in the password manager. This is a temporary solution until SealedSecrets is properly setup or we move to something else.

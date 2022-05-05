@@ -8,9 +8,6 @@ environments:
   prod:
     values:
     - environments/prod/values.yaml
-    secrets:
-    - environments/prod/secrets.yaml
-
     missingFileHandler: Error
 
 releases:

@@ -57,11 +57,11 @@ spec:
               mountPath: /config-scripts
           resources:
             requests:
-              memory: "128Mi"
-              cpu: "100m"
+              memory: "900Mi"
+              cpu: "230m"
             limits:
-              memory: "256Mi"
-              cpu: "150m"
+              memory: "1Gi"
+              cpu: "400m"
         - name: ipfs-cluster
           image: {{ .Values.images.ipfsCluster }}
           imagePullPolicy: IfNotPresent
@@ -73,15 +73,9 @@ spec:
                   name: env-config
                   key: bootstrap-peer-id
             - name: BOOTSTRAP_PEER_PRIV_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: secret-config
-                  key: bootstrap-peer-priv-key
+              value: "xxx"
             - name: CLUSTER_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: secret-config
-                  key: cluster-secret
+              value: "xxx"
             - name: SVC_NAME
               value: {{ include "ipfs-cluster.fullname" . }}
             - name: NAMESPACE
@@ -113,11 +107,11 @@ spec:
               mountPath: /config-scripts
           resources:
             requests:
-              memory: "128Mi"
-              cpu: "100m"
+              memory: "800Mi"
+              cpu: "300m"
             limits:
-              memory: "256Mi"
-              cpu: "150m"
+              memory: "900Mi"
+              cpu: "400m"
       volumes:
         - name: config-scripts
           configMap:
