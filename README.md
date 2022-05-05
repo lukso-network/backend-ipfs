@@ -10,10 +10,10 @@ We are running an IPFS-Cluster with the following endpoints publicly available:
 
   - ![POST](https://img.shields.io/badge/-POST-green "POST") `https://api.ipfs.lukso.network`[/api/v0/add](https://docs.ipfs.io/reference/http/api/#api-v0-add)
   - ![POST](https://img.shields.io/badge/-POST-green "POST") `https://api.ipfs.lukso.network`[/api/v0/block](https://docs.ipfs.io/reference/http/api/#api-v0-add)
-  - ![POST](https://img.shields.io/badge/-POST-green "POST") `https://api.ipfs.lukso.network`[/api/v0/get](https://docs.ipfs.io/reference/http/api/#api-v0-add)
-  - ![POST](https://img.shields.io/badge/-POST-green "POST") `https://api.ipfs.lukso.network`[/api/v0/dag/put](https://docs.ipfs.io/reference/http/api/#api-v0-add)
-  - ![POST](https://img.shields.io/badge/-POST-green "POST") `https://api.ipfs.lukso.network`[/api/v0/object/data](https://docs.ipfs.io/reference/http/api/#api-v0-add)
-  - ![POST](https://img.shields.io/badge/-POST-green "POST") `https://api.ipfs.lukso.network`[/api/v0/object/get](https://docs.ipfs.io/reference/http/api/#api-v0-add)
+  - ![POST](https://img.shields.io/badge/-POST-green "POST") `https://api.ipfs.lukso.network`[/api/v0/get](https://docs.ipfs.io/reference/http/api/#api-v0-get)
+  - ![POST](https://img.shields.io/badge/-POST-green "POST") `https://api.ipfs.lukso.network`[/api/v0/dag/put](https://docs.ipfs.io/reference/http/api/#api-v0-dag-put)
+  - ![POST](https://img.shields.io/badge/-POST-green "POST") `https://api.ipfs.lukso.network`[/api/v0/object/data](https://docs.ipfs.io/reference/http/api/#api-v0-object-data)
+  - ![POST](https://img.shields.io/badge/-POST-green "POST") `https://api.ipfs.lukso.network`[/api/v0/object/get](https://docs.ipfs.io/reference/http/api/#api-v0-object-get)
 
 ## Upload manually to LUKSO IPFS
 
