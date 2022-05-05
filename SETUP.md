@@ -9,7 +9,7 @@ This is a `helm` chart combined with a `helmfile`.
 - Enable [application default credentials](https://github.com/mozilla/sops#encrypting-using-gcp-kms)
 - Request permission to `sops-key`
   - `projects/lukso-infrastructure/locations/global/keyRings/sops/cryptoKeys/sops-key`
-- Install `helm`, `helmfile` and `helm-secrets`
+- Install `helm`, `helmfile` and `helm-diff`
 
 ### Steps
 
@@ -17,7 +17,7 @@ This is a `helm` chart combined with a `helmfile`.
 - `gcloud container clusters get-credentials ipfs-cluster --zone europe-west1-c --project lukso-infrastructure`
 - `brew install helm`
 - `brew install helmfile`
-- `helm plugin install https://github.com/jkroepke/helm-secret`
+- `helm plugin install https://github.com/databus23/helm-diff`
 
 ### Instructions for any OS or users without `brew`:
 
@@ -25,7 +25,7 @@ This is a `helm` chart combined with a `helmfile`.
 
 # Deployment
 
-Having setup everything, you are now ready to deplpoy a change to the cluster.
+Having setup everything, you are now ready to deploy a change to the cluster.
 
 :warning: Before deploying, always have a look at the generated `yaml` files:
 
@@ -145,21 +145,10 @@ curl -X POST "https://api.ipfs.lukso.network/api/v0/add"
 It's important that the `ipfs-cluster-ctl id` command returns the correct amount of peers. It should be `# of replicas -1`.
 
 ```
-kubectl exec -n prod --stdin --tty lukso-ipfs-cluster-0 -c ipfs-cluster  -- /bin/sh
-/ # ipfs-cluster-ctl id
-Qmd7vkP2JFQDJmFm5zENEQGahsCdN8UeNWCxJq8Y3C8Ged | lukso-ipfs-cluster-0 | Sees 2 other peers
+$ kubectl exec -n staging --stdin --tty lukso-ipfs-cluster-0 -c ipfs-cluster  -- ipfs-cluster-ctl id
+> Qmd7vkP2JFQDJmFm5zENEQGahsCdN8UeNWCxJq8Y3C8Ged | lukso-ipfs-cluster-0 | Sees 2 other peers
 ```
 
 # Secrets
 
-Update a secret:
-
-- `helm secrets edit environments/staging/secrets.yaml`
-
-Encrypt a secret:
-
-- Create the file with the desired contents
-- `helm secrets enc {{ path/to/secrets.yaml }}`
-
-> Any secret value that needs to be encrypted needs to be stored within a file named `secrets.yaml`.
-> Secrets are encrypted via [gcloud kms](https://cloud.google.com/sdk/gcloud/reference/kms).
+This repo was previously using `helm-secret` and then attempted to use SealedSecret. However, the SealedSecrets were only generated for the staging env and never deployed to the prod env. To fix memory issues quick, the SeadledSecret yaml file has been commented and the related secrets were injected as environements variables in the stateful set. The commit version does not contain these values of course. The values are stored in the DevOps top secret shared folder in the password manager. This is a temporary solution until SealedSecrets is properly setup or we move to something else.

@@ -60,3 +60,7 @@ They both are located on the same cluster, each within their own namespace (`sta
 # Setup
 
 If you would like to setup a cluster from scratch, checkout out the [setup instructions](./SETUP.md).
+
+# Resources
+
+- <https://cluster.ipfs.io/documentation/guides/k8s/>
