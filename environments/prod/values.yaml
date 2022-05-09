@@ -1,8 +1,8 @@
 replicaCount: 3
 
 images:
-  ipfs: "ipfs/go-ipfs:v0.8.0"
-  ipfsCluster: "ipfs/ipfs-cluster:v0.13.1"
+  ipfs: "ipfs/go-ipfs:v0.11.0"
+  ipfsCluster: "ipfs/ipfs-cluster:v1.0.0"
 
 bootstrap:
   id: Qmd7vkP2JFQDJmFm5zENEQGahsCdN8UeNWCxJq8Y3C8Ged
