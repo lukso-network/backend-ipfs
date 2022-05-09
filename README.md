@@ -46,16 +46,13 @@ If you require more in-depth examples, head over to the [IPFS docs](https://docs
 
 # Environments
 
-By default, there are two environments available:
+By default, there is one environment available:
 
-- Staging aka `staging`
-  - https://staging.ipfs.lukso.network
-  - https://staging.api.ipfs.lukso.network
 - Production aka `prod`
   - https://ipfs.lukso.network
   - https://api.ipfs.lukso.network
 
-They both are located on the same cluster, each within their own namespace (`staging`|`prod`).
+They both are located on the same cluster, each within their own namespace (`prod`).
 
 # Setup
 

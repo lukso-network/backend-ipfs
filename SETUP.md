@@ -29,11 +29,11 @@ Having setup everything, you are now ready to deploy a change to the cluster.
 
 :warning: Before deploying, always have a look at the generated `yaml` files:
 
-- `helmfile --environment staging template`
+- `helmfile --environment prod template`
 
 To actually deploy:
 
-- `helmfile --environment staging sync`
+- `helmfile --environment prod sync`
 
 > If it is your initial deployment:
 >
@@ -100,11 +100,11 @@ bootstrap:
 
 Before deploying, always have a look at the generated `yaml` files:
 
-- `helmfile --environment staging template`
+- `helmfile --environment prod template`
 
 To actually deploy:
 
-- `helmfile --environment staging sync`
+- `helmfile --environment prod sync`
 
 ## Fix the ingress health-checks:
 
@@ -145,10 +145,10 @@ curl -X POST "https://api.ipfs.lukso.network/api/v0/add"
 It's important that the `ipfs-cluster-ctl id` command returns the correct amount of peers. It should be `# of replicas -1`.
 
 ```
-$ kubectl exec -n staging --stdin --tty lukso-ipfs-cluster-0 -c ipfs-cluster  -- ipfs-cluster-ctl id
+$ kubectl exec -n prod --stdin --tty lukso-ipfs-cluster-0 -c ipfs-cluster  -- ipfs-cluster-ctl id
 > Qmd7vkP2JFQDJmFm5zENEQGahsCdN8UeNWCxJq8Y3C8Ged | lukso-ipfs-cluster-0 | Sees 2 other peers
 ```
 
 # Secrets
 
-This repo was previously using `helm-secret` and then attempted to use SealedSecret. However, the SealedSecrets were only generated for the staging env and never deployed to the prod env. To fix memory issues quick, the SeadledSecret yaml file has been commented and the related secrets were injected as environements variables in the stateful set. The commit version does not contain these values of course. The values are stored in the DevOps top secret shared folder in the password manager. This is a temporary solution until SealedSecrets is properly setup or we move to something else.
+This repo was previously using `helm-secret` and then attempted to use SealedSecret. However, the SealedSecrets were only generated for the staging env (which has been deleted now) and never deployed to the prod env. To fix memory issues quick, the SeadledSecret yaml file has been commented and the related secrets were injected as environements variables in the stateful set. The commit version does not contain these values of course. The values are stored in the DevOps top secret shared folder in the password manager. This is a temporary solution until SealedSecrets is properly setup or we move to something else.

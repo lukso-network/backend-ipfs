@@ -1,8 +1,4 @@
 environments:
-  # The "default" environment is available and used when `helmfile` is run without `--environment NAME`.
-  staging:
-    values:
-    - environments/staging/values.yaml
   # Any environment other than `default` is used only when `helmfile` is run with `--environment NAME`.
   # That is, the "production" env below is used when and only when it is run like `helmfile --environment prod sync`.
   prod:
