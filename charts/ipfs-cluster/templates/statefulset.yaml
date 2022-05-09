@@ -57,11 +57,11 @@ spec:
               mountPath: /config-scripts
           resources:
             requests:
-              memory: "900Mi"
-              cpu: "230m"
+              memory: "11Gi"
+              cpu: "3"
             limits:
-              memory: "1Gi"
-              cpu: "400m"
+              memory: "12Gi"
+              cpu: "3.4"
         - name: ipfs-cluster
           image: {{ .Values.images.ipfsCluster }}
           imagePullPolicy: IfNotPresent
@@ -107,11 +107,11 @@ spec:
               mountPath: /config-scripts
           resources:
             requests:
-              memory: "800Mi"
-              cpu: "300m"
-            limits:
-              memory: "900Mi"
+              memory: "1.1Gi"
               cpu: "400m"
+            limits:
+              memory: "1.5Gi"
+              cpu: "500m"
       volumes:
         - name: config-scripts
           configMap:
@@ -133,4 +133,4 @@ spec:
         accessModes: ["ReadWriteOnce"] # the volume can be mounted as read-write by a single node
         resources:
           requests:
-            storage: 500Gi
+            storage: 500Gi # quickfix: This has been manually updated to 2T - changin it here doesnt work
